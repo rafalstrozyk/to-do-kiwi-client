@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import PropTypes from 'prop-types';
 import { Link } from 'react-router-dom';
 import withStyles from '@material-ui/core/styles/withStyles';
@@ -22,10 +22,14 @@ const styles = (theme) => ({
 });
 
 const Login = (props) => {
-	const { email, setEmail } = useState('');
-	const { password, setPassword } = useState('');
-	const { errors, setErrors } = useState(null);
+	const [ email, setEmail ] = useState('');
+	const [ password, setPassword ] = useState('');
+	const [ errors, setErrors ] = useState({});
 	const store = useSelector(store => store)
+
+	if(props.UI.errors) {
+		setErrors(props.UI.errors);
+	}
 
 	const {
 		classes,
@@ -34,9 +38,10 @@ const Login = (props) => {
 
 	function handleSubmit(event) {
 		event.preventDefault();
+		console.log(email)
 		const userData = {
-			email,
-			password
+			email: email,
+			password: password
 		};
 		props.loginUser(userData, props.history);
 	}
@@ -56,7 +61,7 @@ const Login = (props) => {
 						label='Email'
 
 						value={email}
-						onChange={setEmail}
+						onChange={e => setEmail(e.target.value)}
 						fullWidth
 					/>
 					<TextField
@@ -66,14 +71,14 @@ const Login = (props) => {
 						type='password'
 						label='Password'
 						value={password}
-						onChange={setPassword}
+						onChange={(e) => setPassword(e.target.value)}
 						fullWidth
 					/>
-					{/* {store.errors.general && (
+					{errors.general && (
 						<Typography variant='body2' className={classes.customError}>
-							{store.errors.general}
+							{errors.general}
 						</Typography>
-					)} */}
+					)}
 					<Button
 						type='submit'
 						variant='contained'
