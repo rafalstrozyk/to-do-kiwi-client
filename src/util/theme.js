@@ -21,5 +21,21 @@ export default {
 			'"Segoe UI Emoji"',
 			'"Segoe UI Symbol"'
 		].join(',')
+	},
+	form: {
+		textAlign: 'center',
+		display: 'flex',
+		flexDirection: 'column',
+		alignItems: 'center'
+	},
+	pageTitle: {
+		margin: '15px auto 15px auto'
+	},
+	textField: {
+		margin: '10px auto 10px auto'
+	},
+	button: {
+		marginTop: 20,
+		position: 'relative'
 	}
 };
