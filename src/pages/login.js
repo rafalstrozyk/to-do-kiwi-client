@@ -11,7 +11,7 @@ import Button from '@material-ui/core/Button';
 import CircularProgress from '@material-ui/core/CircularProgress';
 
 // redux stuff
-import { connect } from 'react-redux';
+import { connect, useSelector } from 'react-redux';
 import { loginUser } from '../redux/actions/userActions';
 
 const styles = (theme) => ({
@@ -24,7 +24,8 @@ const styles = (theme) => ({
 const Login = (props) => {
 	const { email, setEmail } = useState('');
 	const { password, setPassword } = useState('');
-	const { errors, setErrors } = useState({});
+	const { errors, setErrors } = useState(null);
+	const store = useSelector(store => store)
 
 	const {
 		classes,
@@ -53,8 +54,7 @@ const Login = (props) => {
 						name='email'
 						type='email'
 						label='Email'
-						helperText={errors.email}
-						error={errors.email ? true : false}
+
 						value={email}
 						onChange={setEmail}
 						fullWidth
@@ -65,17 +65,15 @@ const Login = (props) => {
 						name='password'
 						type='password'
 						label='Password'
-						helperText={errors.password}
-						error={errors.password ? true : false}
 						value={password}
 						onChange={setPassword}
 						fullWidth
 					/>
-					{errors.general && (
+					{/* {store.errors.general && (
 						<Typography variant='body2' className={classes.customError}>
-							{errors.general}
+							{store.errors.general}
 						</Typography>
-					)}
+					)} */}
 					<Button
 						type='submit'
 						variant='contained'
