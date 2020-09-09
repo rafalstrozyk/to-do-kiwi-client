@@ -38,12 +38,13 @@ const Login = (props) => {
 
 	function handleSubmit(event) {
 		event.preventDefault();
-		console.log(email)
+		console.log(email + " " + password)
 		const userData = {
 			email: email,
 			password: password
 		};
-		props.loginUser(userData, props.history);
+		// props.loginUser(userData, props.history);
+		
 	}
 
 	return (
