@@ -3,36 +3,8 @@ import PropTypes from 'prop-types';
 import { makeStyles } from '@material-ui/core/styles';
 import Tabs from '@material-ui/core/Tabs';
 import Tab from '@material-ui/core/Tab';
-import Typography from '@material-ui/core/Typography';
 import Box from '@material-ui/core/Box';
-import Card from '../Card/Card';
-
-const tabels = [
-	{
-		id: 1,
-		label: 'Test1'
-	},
-	{
-		id: 2,
-		label: 'Test2'
-	},
-	{
-		id: 3,
-		label: 'Test3'
-	},
-	{
-		id: 4,
-		label: 'Test4'
-	},
-	{
-		id: 5,
-		label: 'Test5'
-	},
-	{
-		id: 6,
-		label: 'Test6'
-	}
-];
+import {connect} from 'react-redux'
 
 function TabPanel(props) {
 	const { children, value, index, boxClass, ...other } = props;
@@ -56,12 +28,12 @@ TabPanel.propTypes = {
 	value: PropTypes.any.isRequired
 };
 
-function a11yProps(index) {
-	return {
-		id: `vertical-tab-${index}`,
-		'aria-controls': `vertical-tabpanel-${index}`
-	};
-}
+// function a11yProps(index) {
+// 	return {
+// 		id: `vertical-tab-${index}`,
+// 		'aria-controls': `vertical-tabpanel-${index}`
+// 	};
+// }
 
 const useStyles = makeStyles((theme) => ({
 	root: {
@@ -87,41 +59,12 @@ const useStyles = makeStyles((theme) => ({
 	}
 }));
 
-export default function VerticalTabs() {
+function VerticalTabs(props) {
 	const classes = useStyles();
 	const [value, setValue] = useState(0);
-	const [tabList, setTabList] = useState([{ key: 0, id: 0 }]);
-	const [id, setId] = useState(0);
+	const tabels = props.data.tabels;
 
 	useEffect(() => {});
-
-	const addTab = () => {
-		setTabList(tabels);
-		setId = tabList[tabList.length - 1].id + 1;
-		tabList.push({
-			key: id,
-			id: id
-		});
-		return tabList;
-	};
-
-	const CreateTab = ({ tabels }) => (
-		<>
-			{tabels.map((tabel, index) => (
-				<Tab key={index} label={tabel.label} {...a11yProps(index)} />
-			))}
-		</>
-	);
-
-	const CreateTabPanel = ({ tabels }) => (
-		<>
-			{tabels.map((tabel, index) => (
-				<TabPanel key={index} value={index} index={index}>
-					{tabel.label}
-				</TabPanel>
-			))}
-		</>
-	);
 
 	const handleChange = (event, newValue) => {
 		setValue(newValue);
@@ -153,3 +96,14 @@ export default function VerticalTabs() {
 		</div>
 	);
 }
+
+
+VerticalTabs.propTypes = {
+	data: PropTypes.object.isRequired
+};
+
+const mapStateToProps = (state) => ({
+	data: state.data
+});
+
+export default connect(mapStateToProps)(VerticalTabs);
