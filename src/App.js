@@ -6,6 +6,7 @@ import themeFile from './util/theme';
 import axios from 'axios';
 import { BrowserRouter as Router, Route, Switch } from 'react-router-dom';
 import jwtDecode from 'jwt-decode';
+import {db} from './firebase';
 
 // redux
 import { Provider } from 'react-redux';
@@ -23,21 +24,20 @@ import signup from './pages/signup';
 
 const theme = createMuiTheme(themeFile);
 
-axios.defaults.baseURL = 'https://europe-west1-todokiwi.cloudfunctions.net/api';
-
-const token = localStorage.FBIdToken;
-if (token) {
-	const decodedToken = jwtDecode(token);
-	if (decodedToken.exp * 1000 < Date.now()) {
-		store.dispatch(logoutUser());
-		window.location.href = '/login';
-	} else {
-		store.dispatch({ type: SET_AUTHENTICATED });
-		axios.defaults.headers.common['Authorization'] = token;
-	}
-}
-
 const App = () => {
+	// db.collection('test').add({
+	// 	first: 'test2',
+	// 	age: 5,
+	// 	last: 'potato2'
+	// })
+	// .then(doc => {
+	// 	console.log("lol")
+	// 	console.log(doc.id)
+	// })
+	// .catch(err => {
+	// 	console.error(err);
+	// })
+
 	return (
 		<ThemeProvider theme={theme}>
 			<Provider store={store}>
