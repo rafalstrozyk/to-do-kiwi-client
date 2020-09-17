@@ -15,7 +15,8 @@ import {connect} from 'react-redux';
 import {addTab} from '../../redux/actions/dataActions';
 const testTab = {
 	id: 7,
-	label: 'TestDodawania'
+	label: 'TestDodawania',
+	todo: []
 }
 
 const StyledMenu = withStyles({
@@ -92,7 +93,6 @@ function MenuBar(props) {
 					<ListItemIcon>
 						<AddCircleIcon fontSize='small' />
 					</ListItemIcon>
-					{/* <ListItemText primary='Add to-do' /> */}
 					<AddTodoDialog open={open} />
 				</StyledMenuItem>
 				<StyledMenuItem>

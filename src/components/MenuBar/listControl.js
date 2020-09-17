@@ -1,18 +1,13 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import { connect } from 'react-redux';
 import { makeStyles } from '@material-ui/core/styles';
 import PropTypes from 'prop-types';
 import List from '@material-ui/core/List';
 import ListItem from '@material-ui/core/ListItem';
-import ListItemIcon from '@material-ui/core/ListItemIcon';
-import ListItemSecondaryAction from '@material-ui/core/ListItemSecondaryAction';
 import ListItemText from '@material-ui/core/ListItemText';
-import Checkbox from '@material-ui/core/Checkbox';
-import IconButton from '@material-ui/core/IconButton';
-import CommentIcon from '@material-ui/icons/Comment';
 import Radio from '@material-ui/core/Radio';
 import RadioGroup from '@material-ui/core/RadioGroup';
-import FormControlLabel from '@material-ui/core/FormControlLabel';
+import { changeTabRadio} from '../../redux/actions/uiActions';
 
 const useStyles = makeStyles((theme) => ({
 	root: {
@@ -24,13 +19,17 @@ const useStyles = makeStyles((theme) => ({
 
 function CheckboxList(props) {
 	const tabels = props.data.tabels;
-
+	const changeTabRadio = props.changeTabRadio;
 	const classes = useStyles();
-	const [checked, setChecked] = React.useState([0]);
-	const [value, setValue] = React.useState(tabels[0].id);
+	const [checked, setChecked] = useState([0]);
+	const [value, setValue] = useState(tabels[0].id);
+
+	useEffect(()=> {
+		changeTabRadio(value);
+	})
 
 	const handleChange = (event) => {
-		setValue(event.target.value);
+		setValue(parseInt(event.target.value));
 	};
 
 	const handleToggle = (value) => () => {
@@ -54,8 +53,9 @@ function CheckboxList(props) {
 				value={value}
 				onChange={handleChange}
 			>
+				
 				{tabels.map((tabel, index) => {
-					const labelId = `checkbox-list-label-${index}`;
+					const labelId = `radio-list-label-${index}`;
 
 					return (
 						<ListItem
@@ -65,17 +65,6 @@ function CheckboxList(props) {
 							button
 							onClick={handleToggle(tabel.id)}
 						>
-							{/* <ListItemIcon>
-								<Checkbox
-									edge='start'
-									checked={checked.indexOf(tabel.id) !== -1}
-									tabIndex={-1}
-									disableRipple
-									inputProps={{ 'aria-labelledby': labelId }}
-								/>
-                                
-							</ListItemIcon> */}
-							{/* <FormControlLabel  value={tabel.id} control={<Radio />} label={tabel.label} /> */}
 							<Radio
 								checked={value === tabel.id}
 								onChange={handleChange}
@@ -94,11 +83,12 @@ function CheckboxList(props) {
 }
 
 CheckboxList.propTypes = {
-	data: PropTypes.object.isRequired
+	data: PropTypes.object.isRequired,
+	changeTabRadio: PropTypes.func.isRequired
 };
 
 const mapStateToProps = (state) => ({
 	data: state.data
 });
 
-export default connect(mapStateToProps)(CheckboxList);
+export default connect(mapStateToProps, { changeTabRadio})(CheckboxList);

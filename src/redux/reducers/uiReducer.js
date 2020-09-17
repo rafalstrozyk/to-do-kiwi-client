@@ -2,12 +2,14 @@ import {
 	SET_ERRORS,
 	CLEAR_ERRORS,
 	LOADING_UI,
-	STOP_LOADING_UI
+	STOP_LOADING_UI,
+	CHANGE_RADIO_TAB
 } from '../types';
 
 const initialState = {
 	loading: false,
-	errors: null
+	errors: null,
+	radioTab: null
 };
 
 export default (state = initialState, action) => {
@@ -33,6 +35,11 @@ export default (state = initialState, action) => {
 			return {
 				...state,
 				loading: false
+			};
+		case CHANGE_RADIO_TAB:
+			return {
+				...state,
+				radioTab: action.tabId
 			};
 		default:
 			return state;

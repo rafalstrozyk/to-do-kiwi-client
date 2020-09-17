@@ -10,6 +10,7 @@ export const LOADING_UI = 'LOADING_UI';
 export const STOP_LOADING_UI = 'STOP_LOADING_UI';
 export const LOADING_DATA = 'LOADING_DATA';
 export const STOP_LOADING_DATA = 'STOP_LOADING_DATA';
+export const CHANGE_RADIO_TAB = 'CHANGE_RADIO_TAB';
 // Tabs reducer types 
 export const SET_TABS = 'SET_TABS';
 export const ADD_TAB = 'ADD_TAB';
