@@ -3,16 +3,13 @@ import './App.css';
 import { ThemeProvider } from '@material-ui/core/styles';
 import createMuiTheme from '@material-ui/core/styles/createMuiTheme';
 import themeFile from './util/theme';
-import axios from 'axios';
 import { BrowserRouter as Router, Route, Switch } from 'react-router-dom';
-import jwtDecode from 'jwt-decode';
-import {db} from './firebase';
+
 
 // redux
 import { Provider } from 'react-redux';
 import store from './redux/store';
-import { SET_AUTHENTICATED } from './redux/types';
-import { logoutUser } from './redux/actions/userActions';
+
 
 // components
 import Navbar from './components/layout/Navbar';

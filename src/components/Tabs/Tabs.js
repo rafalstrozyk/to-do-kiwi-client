@@ -84,7 +84,7 @@ function VerticalTabs(props) {
 					<Tab
 						key={tab.id}
 						value={index}
-						label={'Node ' + tab.id}
+						label={tab.label}
 					/>
 				))}
 			</Tabs>

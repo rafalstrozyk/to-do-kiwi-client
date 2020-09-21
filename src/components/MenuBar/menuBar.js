@@ -2,22 +2,15 @@ import React, { useState } from 'react';
 import { withStyles } from '@material-ui/core/styles';
 import PropTypes from 'prop-types'
 import AddTodoDialog from './addTodoDialog';
+import AddTabDialog from './addTabDialog';
 
 // Material-UI stuff
 import Button from '@material-ui/core/Button';
 import Menu from '@material-ui/core/Menu';
 import MenuItem from '@material-ui/core/MenuItem';
 import ListItemIcon from '@material-ui/core/ListItemIcon';
-import ListItemText from '@material-ui/core/ListItemText';
 import AddCircleIcon from '@material-ui/icons/AddCircle';
 
-import {connect} from 'react-redux';
-import {addTab} from '../../redux/actions/dataActions';
-const testTab = {
-	id: 7,
-	label: 'TestDodawania',
-	todo: []
-}
 
 const StyledMenu = withStyles({
 	paper: {
@@ -66,10 +59,6 @@ function MenuBar(props) {
 		setAnchorEl(null);
 	};
 
-	const handleAddTab = (event) => {
-		event.preventDefault();
-		props.addTab(testTab);
-	}
 
 	return (
 		<div>
@@ -99,15 +88,12 @@ function MenuBar(props) {
 					<ListItemIcon>
 						<AddCircleIcon fontSize='small' />
 					</ListItemIcon>
-					<ListItemText onClick={handleAddTab} primary='Add column' />
+					{/* <ListItemText onClick={handleAddTab} primary='Add column' /> */}
+					<AddTabDialog open={open} />
 				</StyledMenuItem>
 			</StyledMenu>
 		</div>
 	);
 }
 
-MenuBar.propTypes = {
-	addTab: PropTypes.func.isRequired
-}
-
-export default connect(null, {addTab})(MenuBar)
+export default MenuBar

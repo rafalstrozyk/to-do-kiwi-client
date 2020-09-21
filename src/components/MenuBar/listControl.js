@@ -55,7 +55,7 @@ function CheckboxList(props) {
 			>
 				
 				{tabels.map((tabel, index) => {
-					const labelId = `radio-list-label-${index}`;
+					const tabelId = `radio-list-label-${index}`;
 
 					return (
 						<ListItem
@@ -73,7 +73,7 @@ function CheckboxList(props) {
 								inputProps={{ 'aria-label': `${tabel.id}` }}
 							/>
 
-							<ListItemText id={labelId} primary={`${tabel.label}`} />
+							<ListItemText id={tabelId} primary={`${tabel.label}`} />
 						</ListItem>
 					);
 				})}
