@@ -29,7 +29,7 @@ function CheckboxList(props) {
 	})
 
 	const handleChange = (event) => {
-		setValue(parseInt(event.target.value));
+		setValue(event.target.value);
 	};
 
 	const handleToggle = (value) => () => {

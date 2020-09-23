@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState} from 'react';
 import PropTypes from 'prop-types';
 import { Link } from 'react-router-dom';
 import withStyles from '@material-ui/core/styles/withStyles';
@@ -11,7 +11,7 @@ import Button from '@material-ui/core/Button';
 import CircularProgress from '@material-ui/core/CircularProgress';
 
 // redux stuff
-import { connect, useSelector } from 'react-redux';
+import { connect } from 'react-redux';
 import { loginUser } from '../redux/actions/userActions';
 
 const styles = (theme) => ({
@@ -25,7 +25,6 @@ const Login = (props) => {
 	const [ email, setEmail ] = useState('');
 	const [ password, setPassword ] = useState('');
 	const [ errors, setErrors ] = useState({});
-	const store = useSelector(store => store)
 
 	if(props.UI.errors) {
 		setErrors(props.UI.errors);
@@ -38,11 +37,6 @@ const Login = (props) => {
 
 	function handleSubmit(event) {
 		event.preventDefault();
-		console.log(email + " " + password)
-		const userData = {
-			email: email,
-			password: password
-		};
 		// props.loginUser(userData, props.history);
 		
 	}

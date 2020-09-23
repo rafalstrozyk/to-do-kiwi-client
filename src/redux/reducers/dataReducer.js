@@ -1,4 +1,4 @@
-import { ADD_TAB, ADD_TODO } from '../types';
+import { ADD_TAB, ADD_TODO, SET_TABS } from '../types';
 const initialState = {
 	tabels: [
 		{
@@ -45,7 +45,7 @@ export default (state = initialState, action) => {
 			let newArray = [];
 			state.tabels.forEach((item) => {
 				if (item.id === action.todo.tabId) {
-					item.todo.push(action.todo);
+					item.todos.push(action.todo);
 				}
 				newArray.push(item);
 			});
@@ -54,6 +54,11 @@ export default (state = initialState, action) => {
 				tabels: newArray,
 				todo: action.todo
 			};
+		case SET_TABS: 
+			return {
+				...state, 
+				tabels: action.tabsArray
+			}
 		default:
 			return state;
 	}

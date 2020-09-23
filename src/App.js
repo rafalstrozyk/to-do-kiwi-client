@@ -22,19 +22,6 @@ import signup from './pages/signup';
 const theme = createMuiTheme(themeFile);
 
 const App = () => {
-	// db.collection('test').add({
-	// 	first: 'test2',
-	// 	age: 5,
-	// 	last: 'potato2'
-	// })
-	// .then(doc => {
-	// 	console.log("lol")
-	// 	console.log(doc.id)
-	// })
-	// .catch(err => {
-	// 	console.error(err);
-	// })
-
 	return (
 		<ThemeProvider theme={theme}>
 			<Provider store={store}>

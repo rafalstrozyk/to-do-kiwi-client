@@ -4,7 +4,9 @@ import { makeStyles } from '@material-ui/core/styles';
 import Tabs from '@material-ui/core/Tabs';
 import Tab from '@material-ui/core/Tab';
 import Box from '@material-ui/core/Box';
-import {connect} from 'react-redux'
+import { connect } from 'react-redux';
+
+import { loadTabs } from '../../redux/actions/dataActions';
 
 function TabPanel(props) {
 	const { children, value, index, boxClass, ...other } = props;
@@ -27,13 +29,6 @@ TabPanel.propTypes = {
 	index: PropTypes.any.isRequired,
 	value: PropTypes.any.isRequired
 };
-
-// function a11yProps(index) {
-// 	return {
-// 		id: `vertical-tab-${index}`,
-// 		'aria-controls': `vertical-tabpanel-${index}`
-// 	};
-// }
 
 const useStyles = makeStyles((theme) => ({
 	root: {
@@ -62,9 +57,9 @@ const useStyles = makeStyles((theme) => ({
 function VerticalTabs(props) {
 	const classes = useStyles();
 	const [value, setValue] = useState(0);
-	const tabels = props.data.tabels;
+	const {loadTabs} = props;
 
-	useEffect(() => {});
+	const tabels = props.data.tabels;
 
 	const handleChange = (event, newValue) => {
 		setValue(newValue);
@@ -81,29 +76,25 @@ function VerticalTabs(props) {
 				className={classes.tabs}
 			>
 				{tabels.map((tab, index) => (
-					<Tab
-						key={tab.id}
-						value={index}
-						label={tab.label}
-					/>
+					<Tab key={tab.id} value={index} label={tab.label} />
 				))}
 			</Tabs>
-            {tabels.map((tab, index)=> (
-                <TabPanel value={value} key={tab.id} index={index}>
-				    {tab.label}
-			    </TabPanel>
-            ))}
+			{tabels.map((tab, index) => (
+				<TabPanel value={value} key={tab.id} index={index}>
+					{tab.label}
+				</TabPanel>
+			))}
 		</div>
 	);
 }
 
-
 VerticalTabs.propTypes = {
-	data: PropTypes.object.isRequired
+	data: PropTypes.object.isRequired,
+	loadTabs: PropTypes.func.isRequired
 };
 
 const mapStateToProps = (state) => ({
 	data: state.data
 });
 
-export default connect(mapStateToProps)(VerticalTabs);
+export default connect(mapStateToProps, { loadTabs })(VerticalTabs);

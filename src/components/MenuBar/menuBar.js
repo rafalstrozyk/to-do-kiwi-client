@@ -45,14 +45,20 @@ const StyledMenuItem = withStyles((theme) => ({
 
 function MenuBar(props) {
 	const [anchorEl, setAnchorEl] = useState(null);
-	const [open, setOpen] = useState(false);
+	const [openTodoDialog, setOpenTodoDialog] = useState(false);
+	const [openTabDialog, setOpenTabDialog] = useState(false);
 
 	const handleClick = (event) => {
 		setAnchorEl(event.currentTarget);
 	};
 
-	const handleClickOpen = () => {
-		setOpen(true);
+	const handleClickOpen = (e) => {
+		if(document.getElementById('addTodoDialog') === e.target) {
+			setOpenTodoDialog(true);
+		}
+		if(document.getElementById('addTabDialog') === e.target) {
+			setOpenTabDialog(true);
+		}
 	}
 
 	const handleClose = () => {
@@ -82,14 +88,13 @@ function MenuBar(props) {
 					<ListItemIcon>
 						<AddCircleIcon fontSize='small' />
 					</ListItemIcon>
-					<AddTodoDialog open={open} />
+					<AddTodoDialog id="addTodoDialog" open={openTodoDialog} />
 				</StyledMenuItem>
 				<StyledMenuItem>
 					<ListItemIcon>
 						<AddCircleIcon fontSize='small' />
 					</ListItemIcon>
-					{/* <ListItemText onClick={handleAddTab} primary='Add column' /> */}
-					<AddTabDialog open={open} />
+					<AddTabDialog id="addTabDialog" open={openTabDialog} />
 				</StyledMenuItem>
 			</StyledMenu>
 		</div>

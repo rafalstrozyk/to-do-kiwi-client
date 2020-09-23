@@ -15,7 +15,6 @@ function AddTabDialog(props) {
 	const [open, setOpen] = useState(false);
 	const {addTab, UI} = props;
 	const [label, setLabel] = useState('');
-	const [desc, setDesc] = useState('');
 
 
 	useEffect(() => {
