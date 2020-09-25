@@ -24,47 +24,56 @@ export const loadTabs = () => {
 	};
 };
 
-export const addTab = (tab) => {
-	if (tab.exists) {
-		return function (dispatch) {
-			return db
-				.collection('tabs')
-				.add(tab)
-				.then((docRef) => {
-					tab.id = docRef.id;
-				})
-				.then(() => {
-					dispatch({ type: ADD_TAB, payload: tab });
-				})
-				.catch((err) => {
-					console.error(err);
-				});
-		};
-	} else {
-		return null;
-	}
+export const addTab = (tab) => dispatch => {
+	db.collection('tabs')
+		.add(tab)
+		.then((doc) => {
+			tab.id = doc.id;
+			dispatch({type: ADD_TAB, payload: tab});
+		})
+		.catch(err => {
+			console.error(err)
+		})
+	// if (tab.exists) {
+	// 	return function (dispatch) {
+	// 		return db
+	// 			.collection('tabs')
+	// 			.add(tab)
+	// 			.then((docRef) => {
+	// 				tab.id = docRef.id;
+	// 			})
+	// 			.then(() => {
+	// 				dispatch({ type: ADD_TAB, payload: tab });
+	// 			})
+	// 			.catch((err) => {
+	// 				console.error(err);
+	// 			});
+	// 	};
+	// } else {
+	// 	return null;
+	// }
 };
 
 export const loadTodo = () => {};
 
-export const addTodo = (todo) => {
-	if (todo.exist) {
-		return function (dispatch) {
-			return db
-				.collection('todos')
-				.add(todo)
-				.then((doc) => {
-					todo.id = doc.id;
-					db.collection('tabs')
-						.doc(todo.tabId)
-						.update({
-							todos: firebase.firestore.FieldValue.arrayUnion(todo.id)
-						});
+export const addTodo = (todo) => (dispatch) => {
+	db.collection('todos')
+		.add(todo)
+		.then((doc) => {
+			todo.id = doc.id;
+			dispatch({
+				type: ADD_TODO,
+				payload: todo
+			});
+		})
+		.then(() => {
+			db.collection('tabs')
+				.doc(todo.tabId)
+				.update({
+					todos: firebase.firestore.FieldValue.arrayUnion(todo.id)
 				});
-		};
-	}
-	return {
-		type: ADD_TODO,
-		todo
-	};
+		})
+		.catch(err => {
+			console.error(err);
+		})
 };

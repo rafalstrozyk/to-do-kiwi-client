@@ -31,12 +31,12 @@ function AddTodoDialog(props) {
 	};
 	const handleSubmit = () => {
 		const todo = {
-			id: 1,
 			title,
 			desc,
 			tabId: UI.radioTab
 		};
 		addTodo(todo);
+		console.log('submit');
 		setOpen(false);
 	};
 
