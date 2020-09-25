@@ -1,4 +1,4 @@
-import { ADD_TAB, ADD_TODO, SET_TABS } from '../types';
+import { ADD_TAB, ADD_TODO, SET_TABS, SET_TODOS} from '../types';
 const initialState = {
 	tabels: [
 	]
@@ -24,6 +24,11 @@ export default (state = initialState, action) => {
 				tabels: newArray,
 			};
 		case SET_TABS: 
+			return {
+				...state, 
+				tabels: action.payload
+			}
+		case SET_TODOS: 
 			return {
 				...state, 
 				tabels: action.payload

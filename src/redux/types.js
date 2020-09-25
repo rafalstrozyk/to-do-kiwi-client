@@ -17,3 +17,4 @@ export const ADD_TAB = 'ADD_TAB';
 export const DELETE_TAB = 'DELETE_TAB';
 // todo reducer types
 export const ADD_TODO = 'ADD_TODO';
+export const SET_TODOS = 'SET_TODOS';

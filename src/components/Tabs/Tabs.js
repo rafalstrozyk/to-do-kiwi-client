@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useState } from 'react';
 import PropTypes from 'prop-types';
 import { makeStyles } from '@material-ui/core/styles';
 import Tabs from '@material-ui/core/Tabs';
@@ -57,7 +57,6 @@ const useStyles = makeStyles((theme) => ({
 function VerticalTabs(props) {
 	const classes = useStyles();
 	const [value, setValue] = useState(0);
-	const {loadTabs} = props;
 
 	const tabels = props.data.tabels;
 
@@ -81,7 +80,7 @@ function VerticalTabs(props) {
 			</Tabs>
 			{tabels.map((tab, index) => (
 				<TabPanel value={value} key={tab.id} index={index}>
-					{tab.label}
+					{tab.todos}
 				</TabPanel>
 			))}
 		</div>
@@ -89,12 +88,11 @@ function VerticalTabs(props) {
 }
 
 VerticalTabs.propTypes = {
-	data: PropTypes.object.isRequired,
-	loadTabs: PropTypes.func.isRequired
+	data: PropTypes.object.isRequired
 };
 
 const mapStateToProps = (state) => ({
 	data: state.data
 });
 
-export default connect(mapStateToProps, { loadTabs })(VerticalTabs);
+export default connect(mapStateToProps)(VerticalTabs);
