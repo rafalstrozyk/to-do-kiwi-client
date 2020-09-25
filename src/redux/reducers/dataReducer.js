@@ -39,25 +39,25 @@ export default (state = initialState, action) => {
 		case ADD_TAB:
 			return {
 				...state,
-				tabels: state.tabels.concat(action.tab)
+				tabels: state.tabels.concat(action.payload)
 			};
 		case ADD_TODO:
 			let newArray = [];
 			state.tabels.forEach((item) => {
-				if (item.id === action.todo.tabId) {
-					item.todos.push(action.todo);
+				if (item.id === action.payload.tabId) {
+					item.todos.push(action.payload);
 				}
 				newArray.push(item);
 			});
 			return {
 				...state,
 				tabels: newArray,
-				todo: action.todo
+				todo: action.payload
 			};
 		case SET_TABS: 
 			return {
 				...state, 
-				tabels: action.tabsArray
+				tabels: action.payload
 			}
 		default:
 			return state;

@@ -1,5 +1,5 @@
 import { ADD_TAB, ADD_TODO, SET_TABS } from '../types';
-import { db } from '../../firebase';
+import { db, firebase } from '../../firebase';
 
 export const loadTabs = () => {
 	let tabsArray = [];
@@ -16,7 +16,7 @@ export const loadTabs = () => {
 				});
 			})
 			.then(() => {
-				dispatch({ type: SET_TABS, tabsArray });
+				dispatch({ type: SET_TABS, payload: tabsArray });
 			})
 			.catch((err) => {
 				console.error(err);
@@ -34,7 +34,7 @@ export const addTab = (tab) => {
 					tab.id = docRef.id;
 				})
 				.then(() => {
-					dispatch({ type: ADD_TAB, tab });
+					dispatch({ type: ADD_TAB, payload: tab });
 				})
 				.catch((err) => {
 					console.error(err);
@@ -48,10 +48,20 @@ export const addTab = (tab) => {
 export const loadTodo = () => {};
 
 export const addTodo = (todo) => {
-	if(todo.exist) {
+	if (todo.exist) {
 		return function (dispatch) {
-			return db.collection('tabs').doc(todo.tabId)
-		}
+			return db
+				.collection('todos')
+				.add(todo)
+				.then((doc) => {
+					todo.id = doc.id;
+					db.collection('tabs')
+						.doc(todo.tabId)
+						.update({
+							todos: firebase.firestore.FieldValue.arrayUnion(todo.id)
+						});
+				});
+		};
 	}
 	return {
 		type: ADD_TODO,

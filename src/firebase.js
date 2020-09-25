@@ -1,4 +1,4 @@
-const firebase = require('firebase');
+export const firebase = require('firebase');
 require('dotenv').config();
 
 const firebaseConfig = {
@@ -8,11 +8,10 @@ const firebaseConfig = {
 	projectId: 'todokiwin',
 	storageBucket: process.env.STORAGE_BUCKET,
 	messagingSenderId: process.env.MESSAGING_SENDER_ID,
-    appId: process.env.APP_ID,
-    measurementId: process.env.MEASUREMENT_ID
+	appId: process.env.APP_ID,
+	measurementId: process.env.MEASUREMENT_ID
 };
 
-
 firebase.initializeApp(firebaseConfig);
-export default firebase;
+
 export const db = firebase.firestore();
