@@ -1,10 +1,11 @@
 import { ADD_TAB, ADD_TODO, SET_TABS, SET_TODOS} from '../types';
 const initialState = {
 	tabels: [
-	]
+	],
 };
 
 export default (state = initialState, action) => {
+	let newArray = [];
 	switch (action.type) {
 		case ADD_TAB:
 			return {
@@ -12,10 +13,10 @@ export default (state = initialState, action) => {
 				tabels: state.tabels.concat(action.payload)
 			};
 		case ADD_TODO:
-			let newArray = [];
+			newArray = [];
 			state.tabels.forEach((item) => {
 				if (item.id === action.payload.tabId) {
-					item.todos.push(action.payload);
+					item.todos += 1;
 				}
 				newArray.push(item);
 			});
@@ -29,9 +30,18 @@ export default (state = initialState, action) => {
 				tabels: action.payload
 			}
 		case SET_TODOS: 
+		newArray = [];
+			state.tabels.forEach((item) => {
+				action.payload.forEach(todo => {
+					if(item.id === todo.tabId) {
+						item.todoArray = action.payload;
+					}
+				}) 	 
+				newArray.push(item);
+			});
 			return {
 				...state, 
-				tabels: action.payload
+				tabels: newArray
 			}
 		default:
 			return state;

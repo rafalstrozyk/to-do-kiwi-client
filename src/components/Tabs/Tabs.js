@@ -1,12 +1,12 @@
-import React, { useState } from 'react';
+import React, { useState, Suspense } from 'react';
 import PropTypes from 'prop-types';
 import { makeStyles } from '@material-ui/core/styles';
 import Tabs from '@material-ui/core/Tabs';
 import Tab from '@material-ui/core/Tab';
 import Box from '@material-ui/core/Box';
 import { connect } from 'react-redux';
+const TodoList =  React.lazy(() => import('../todoList/todoList')) ;
 
-import { loadTabs } from '../../redux/actions/dataActions';
 
 function TabPanel(props) {
 	const { children, value, index, boxClass, ...other } = props;
@@ -80,7 +80,10 @@ function VerticalTabs(props) {
 			</Tabs>
 			{tabels.map((tab, index) => (
 				<TabPanel value={value} key={tab.id} index={index}>
-					{tab.todos}
+					<Suspense fallback={<div>Loading...</div>}>
+						<TodoList tabId={tab.id} />
+					</Suspense>
+					
 				</TabPanel>
 			))}
 		</div>

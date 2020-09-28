@@ -1,68 +1,53 @@
 import { ADD_TAB, ADD_TODO, SET_TABS, SET_TODOS } from '../types';
 import { db, firebase } from '../../firebase';
 
-export const loadTabs = () => dispatch => {
+export const loadTabs = () => (dispatch) => {
 	db.collection('tabs')
 		.get()
-		.then(snapshot => {
+		.then((snapshot) => {
 			let tabsArray = [];
-			snapshot.docs.forEach(tab => {
+			snapshot.docs.forEach((tab) => {
 				let loadTab = tab.data();
 				loadTab.id = tab.id;
-				tabsArray.push(loadTab)
-			})
-			dispatch({type: SET_TABS, payload: tabsArray})
+				tabsArray.push(loadTab);
+			});
+			dispatch({ type: SET_TABS, payload: tabsArray });
 		})
-		.catch(err => {
+		.catch((err) => {
 			console.error(err);
-		})
+		});
 };
 
-export const addTab = (tab) => dispatch => {
+export const addTab = (tab) => (dispatch) => {
 	db.collection('tabs')
 		.add(tab)
 		.then((doc) => {
 			tab.id = doc.id;
-			dispatch({type: ADD_TAB, payload: tab});
+			dispatch({ type: ADD_TAB, payload: tab });
 		})
-		.catch(err => {
-			console.error(err)
-		})
+		.catch((err) => {
+			console.error(err);
+		});
 };
 
-export const loadTodo = () => dispatch => {
-	db.collection('tabs')
+export const loadTodo = (tabId) => (dispatch) => {
+	db.collection('todos')
+		.where('tabId', '==', tabId)
 		.get()
-		.then(snapshot => {
-			let tabsArray = [];
-			snapshot.docs.forEach(tab => {
-				let loadTab = tab.data();
-				loadTab.id = tab.id;
-				tabsArray.push(loadTab)
-			})
-			return tabsArray;
-		}).then(tabsArray => {
-			let tabsTodosArray = [];
+		.then((snapshot) => {
 			let todosArray = [];
-			db.collection('todos').get()
-				.then(snapshot => {
-					snapshot.docs.forEach(doc => {
-						let loadTodo = doc.data();
-						loadTodo.id = doc.id;
-						todosArray.push(loadTodo);
-					})
-					tabsArray.forEach(tab => {
-						todosArray.forEach(todo => {
-							if(tab.id === todo.tabId) {
-								tab.todos.push(todo);
-							}
-							tabsTodosArray.push(tab);
-						})
-					})
-					dispatch({type: SET_TODOS, payload: tabsTodosArray})
-				})
-			
+			snapshot.docs.forEach((todo) => {
+				let loadTodo = todo.data();
+				loadTodo.id = todo.id;
+				todosArray.push(loadTodo);
+			});
+			dispatch({ type: SET_TODOS, payload: todosArray });
+			return todosArray;
 		})
+		.catch((err) => {
+			console.error(err);
+			return null; 
+		});
 };
 
 export const addTodo = (todo) => (dispatch) => {
@@ -79,10 +64,10 @@ export const addTodo = (todo) => (dispatch) => {
 			db.collection('tabs')
 				.doc(todo.tabId)
 				.update({
-					todos: firebase.firestore.FieldValue.arrayUnion(todo.id)
+					todos: firebase.firestore.FieldValue.increment(1)
 				});
 		})
-		.catch(err => {
+		.catch((err) => {
 			console.error(err);
-		})
+		});
 };

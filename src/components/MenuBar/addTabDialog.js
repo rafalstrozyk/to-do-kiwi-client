@@ -31,7 +31,7 @@ function AddTabDialog(props) {
 	const handleSubmit = () => {
 		const todo = {
             label,
-            todos: []
+            todos: 0
         }
         setOpen(false);
 		addTab(todo);
