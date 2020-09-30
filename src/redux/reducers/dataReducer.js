@@ -1,11 +1,11 @@
-import { ADD_TAB, ADD_TODO, SET_TABS, SET_TODOS} from '../types';
+import { ADD_TAB, ADD_TODO, SET_TABS, SET_TODOS } from '../types';
 const initialState = {
-	tabels: [
-	],
+	tabels: []
 };
 
 export default (state = initialState, action) => {
 	let newArray = [];
+	let index = null;
 	switch (action.type) {
 		case ADD_TAB:
 			return {
@@ -13,36 +13,27 @@ export default (state = initialState, action) => {
 				tabels: state.tabels.concat(action.payload)
 			};
 		case ADD_TODO:
-			newArray = [];
-			state.tabels.forEach((item) => {
-				if (item.id === action.payload.tabId) {
-					item.todos += 1;
-				}
-				newArray.push(item);
+			index = state.tabels.findIndex((el) => {
+				return el.id === action.payload.tabId;
 			});
+			state.tabels[index].todoArray.push(action.payload);
+			state.tabels[index].todos += 1;
+			return {
+				...state
+			};
+		case SET_TABS:
 			return {
 				...state,
-				tabels: newArray,
-			};
-		case SET_TABS: 
-			return {
-				...state, 
 				tabels: action.payload
-			}
-		case SET_TODOS: 
-		newArray = [];
-			state.tabels.forEach((item) => {
-				action.payload.forEach(todo => {
-					if(item.id === todo.tabId) {
-						item.todoArray = action.payload;
-					}
-				}) 	 
-				newArray.push(item);
+			};
+		case SET_TODOS:
+			index = state.tabels.findIndex((el) => {
+				return el.id === action.payload[0].tabId;
 			});
+			state.tabels[index].todoArray = action.payload;
 			return {
-				...state, 
-				tabels: newArray
-			}
+				...state
+			};
 		default:
 			return state;
 	}

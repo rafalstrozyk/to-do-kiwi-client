@@ -9,6 +9,7 @@ export const loadTabs = () => (dispatch) => {
 			snapshot.docs.forEach((tab) => {
 				let loadTab = tab.data();
 				loadTab.id = tab.id;
+				loadTab.todoArray = []
 				tabsArray.push(loadTab);
 			});
 			dispatch({ type: SET_TABS, payload: tabsArray });
@@ -23,6 +24,7 @@ export const addTab = (tab) => (dispatch) => {
 		.add(tab)
 		.then((doc) => {
 			tab.id = doc.id;
+			tab.todoArray = []
 			dispatch({ type: ADD_TAB, payload: tab });
 		})
 		.catch((err) => {
@@ -41,12 +43,13 @@ export const loadTodo = (tabId) => (dispatch) => {
 				loadTodo.id = todo.id;
 				todosArray.push(loadTodo);
 			});
-			dispatch({ type: SET_TODOS, payload: todosArray });
-			return todosArray;
+			if(todosArray.length > 0) {
+				dispatch({ type: SET_TODOS, payload: todosArray });
+			}
+			
 		})
 		.catch((err) => {
 			console.error(err);
-			return null; 
 		});
 };
 
