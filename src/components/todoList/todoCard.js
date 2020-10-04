@@ -8,6 +8,8 @@ import CardContent from '@material-ui/core/CardContent';
 import CheckIcon from '@material-ui/icons/Check';
 import IconButton from '@material-ui/core/IconButton';
 import Typography from '@material-ui/core/Typography';
+import {connect} from 'react-redux';
+import {deleteTodo} from '../../redux/actions/dataActions';
 
 const useStyles = makeStyles({
 	root: {
@@ -23,8 +25,13 @@ const useStyles = makeStyles({
 });
 
 function TodoCard(props) {
-	const { todo } = props;
-	const classes = useStyles();
+	const { todo, deleteTodo } = props;
+    const classes = useStyles();
+    
+    const handleDone = () => {
+        deleteTodo(todo);
+    }
+
 	return (
 		<Card className={classes.root}>
 			<CardContent className={classes.content}>
@@ -37,7 +44,7 @@ function TodoCard(props) {
 				</Typography>
 			</CardContent>
 			<CardActions>
-				<IconButton color='primary' aria-label='done-todo' component='span'>
+				<IconButton color='primary' onClick={handleDone} aria-label='done-todo' component='span'>
 					<CheckIcon />
 				</IconButton>
 			</CardActions>
@@ -46,7 +53,8 @@ function TodoCard(props) {
 }
 
 TodoCard.propTypes = {
-	todo: PropTypes.object.isRequired
+    todo: PropTypes.object.isRequired,
+    deleteTodo: PropTypes.func.isRequired
 };
 
-export default TodoCard;
+export default connect(null, {deleteTodo})(TodoCard);

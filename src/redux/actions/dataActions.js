@@ -1,4 +1,11 @@
-import { ADD_TAB, ADD_TODO, SET_TABS, SET_TODOS } from '../types';
+import {
+	ADD_TAB,
+	ADD_TODO,
+	SET_TABS,
+	SET_TODOS,
+	DELETE_TODO,
+	DELETE_TAB
+} from '../types';
 import { db, firebase } from '../../firebase';
 
 export const loadTabs = () => (dispatch) => {
@@ -9,7 +16,7 @@ export const loadTabs = () => (dispatch) => {
 			snapshot.docs.forEach((tab) => {
 				let loadTab = tab.data();
 				loadTab.id = tab.id;
-				loadTab.todoArray = []
+				loadTab.todoArray = [];
 				tabsArray.push(loadTab);
 			});
 			dispatch({ type: SET_TABS, payload: tabsArray });
@@ -24,7 +31,7 @@ export const addTab = (tab) => (dispatch) => {
 		.add(tab)
 		.then((doc) => {
 			tab.id = doc.id;
-			tab.todoArray = []
+			tab.todoArray = [];
 			dispatch({ type: ADD_TAB, payload: tab });
 		})
 		.catch((err) => {
@@ -43,10 +50,9 @@ export const loadTodo = (tabId) => (dispatch) => {
 				loadTodo.id = todo.id;
 				todosArray.push(loadTodo);
 			});
-			if(todosArray.length > 0) {
+			if (todosArray.length > 0) {
 				dispatch({ type: SET_TODOS, payload: todosArray });
 			}
-			
 		})
 		.catch((err) => {
 			console.error(err);
@@ -69,6 +75,25 @@ export const addTodo = (todo) => (dispatch) => {
 				.update({
 					todos: firebase.firestore.FieldValue.increment(1)
 				});
+		})
+		.catch((err) => {
+			console.error(err);
+		});
+};
+
+export const deleteTodo = (todo) => (dispatch) => {
+	db.collection('todos')
+		.doc(todo.id)
+		.delete()
+		.then(() => {
+			db.collection('tabs')
+				.doc(todo.tabId)
+				.update({
+					todos: firebase.firestore.FieldValue.increment(-1)
+				});
+		})
+		.then(() => {
+			dispatch({ type: DELETE_TODO, payload: todo.id });
 		})
 		.catch((err) => {
 			console.error(err);
