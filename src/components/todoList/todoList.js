@@ -1,12 +1,20 @@
-import React, { Fragment, useEffect, useState } from 'react';
+import React, {useEffect} from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { loadTodo } from '../../redux/actions/dataActions';
+import TodoCard from './todoCard';
+import {makeStyles} from '@material-ui/core/styles';
 
+const useStyles = makeStyles({
+	root: {
+		display: 'flex',
+		flexWrap: 'wrap'
+	}
+})
 function TodoList(props) {
 	const { tabId, data, loadTodo } = props;
+	const classes = useStyles();
 	
-
 	const index = data.tabels.findIndex((item) => {
 		return item.id === tabId;
 	})
@@ -16,12 +24,9 @@ function TodoList(props) {
 	}, [loadTodo, tabId]); 
 
 	return (
-		<div>
+		<div className={classes.root}>
 			{data.tabels[index].todoArray.map(todo => (
-				<Fragment key={todo.id}>
-					<p>{todo.title}</p>
-					<p>{todo.desc}</p>
-				</Fragment>
+				<TodoCard key={todo.id} todo={todo}/>
 			))}
 		</div>
 	);

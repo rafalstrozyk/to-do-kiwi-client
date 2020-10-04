@@ -1,4 +1,5 @@
-export const firebase = require('firebase');
+export const firebase = require('firebase/app');
+require('firebase/firestore');
 require('dotenv').config();
 
 const firebaseConfig = {
