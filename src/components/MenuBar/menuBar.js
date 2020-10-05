@@ -67,7 +67,7 @@ function MenuBar(props) {
 
 
 	return (
-		<div>
+		<>
 			<Button
 				aria-controls='customized-menu'
 				aria-haspopup='true'
@@ -97,7 +97,7 @@ function MenuBar(props) {
 					<AddTabDialog id="addTabDialog" open={openTabDialog} />
 				</StyledMenuItem>
 			</StyledMenu>
-		</div>
+		</>
 	);
 }
 
