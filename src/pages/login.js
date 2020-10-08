@@ -1,6 +1,5 @@
 import React, { useState} from 'react';
 import PropTypes from 'prop-types';
-import { Link } from 'react-router-dom';
 import withStyles from '@material-ui/core/styles/withStyles';
 
 // MUI stuff
@@ -13,6 +12,7 @@ import CircularProgress from '@material-ui/core/CircularProgress';
 // redux stuff
 import { connect } from 'react-redux';
 import { loginUser } from '../redux/actions/userActions';
+import { useHistory } from 'react-router-dom';
 
 const styles = (theme) => ({
 	form: theme.form,
@@ -22,9 +22,10 @@ const styles = (theme) => ({
 });
 
 const Login = (props) => {
-	const [ email, setEmail ] = useState('');
-	const [ password, setPassword ] = useState('');
+	const [ userName, setUserName ] = useState('');
 	const [ errors, setErrors ] = useState({});
+	let history = useHistory();
+	const loginUser = props.loginUser;
 
 	if(props.UI.errors) {
 		setErrors(props.UI.errors);
@@ -36,9 +37,10 @@ const Login = (props) => {
 	} = props;
 
 	function handleSubmit(event) {
-		event.preventDefault();
-		// props.loginUser(userData, props.history);
 		
+		console.log("lolk")
+		event.preventDefault();
+		loginUser(userName);
 	}
 
 	return (
@@ -50,23 +52,13 @@ const Login = (props) => {
 				<form noValidate onSubmit={handleSubmit}>
 					<TextField
 						className={classes.textField}
-						id='email'
-						name='email'
-						type='email'
-						label='Email'
-
-						value={email}
-						onChange={e => setEmail(e.target.value)}
-						fullWidth
-					/>
-					<TextField
-						className={classes.textField}
-						id='password'
-						name='password'
-						type='password'
-						label='Password'
-						value={password}
-						onChange={(e) => setPassword(e.target.value)}
+						id='userName'
+						name='userName'
+						type='text'
+						label='User Name'
+						required
+						value={userName}
+						onChange={e => setUserName(e.target.value)}
 						fullWidth
 					/>
 					{errors.general && (
@@ -89,10 +81,6 @@ const Login = (props) => {
 						)}
 						Login
 					</Button>
-					<br />
-					<small>
-						don't have an account? Sign up <Link to='/signup'>here</Link>
-					</small>
 				</form>
 			</Grid>
 		</Grid>

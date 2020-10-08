@@ -4,43 +4,19 @@ import {
 	CLEAR_ERRORS,
 	LOADING_UI,
 	SET_UNAUTHENTICATED,
-	LOADING_USER
+	LOADING_USER,
+	ADD_TODO
 } from '../types';
-import axios from 'axios';
 
 // login
-export const loginUser = (userData, history) => (dispatch) => {
-	dispatch({ type: LOADING_UI });
-	axios
-		.post('/login', userData)
-		.then((res) => {
-			setAuthorizationHeader(res.data.token);
-			// dispatch(getUserData());
-			dispatch({ type: CLEAR_ERRORS });
-			history.push('/');
-		})
-		.catch((err) => {
-			dispatch({ type: SET_ERRORS, payload: err.response.data });
-		});
+export const loginUser = (userData) => (dispatch) => {
+	console.log(userData);
+	localStorage.setItem('userName', userData);
+	dispatch({ type: SET_USER, payload: userData });
 };
 
 // logout
 export const logoutUser = () => (dispatch) => {
-	localStorage.removeItem('FBIdToken');
-	delete axios.defaults.headers.common['Authorization'];
+	localStorage.removeItem('userName');
 	dispatch({ type: SET_UNAUTHENTICATED });
-};
-
-// // Get login user data
-// const getUserData = () => (dispatch) =>{
-//     dispatch({type: LOADING_USER});
-//     axios
-
-// }
-
-// Set user Authorization
-const setAuthorizationHeader = (token) => {
-	const FBIdToken = `Bearer ${token}`;
-	localStorage.setItem('FBIdToken', FBIdToken);
-	axios.defaults.headers.common['Authorization'] = FBIdToken;
 };

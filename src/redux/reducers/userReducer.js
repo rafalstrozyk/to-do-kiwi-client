@@ -8,28 +8,20 @@ import {
 const initialState = {
     authenticated: false,
     loading: false,
+    userName: '',
     notifications: []
 }
 
 export default (state = initialState, action) => {
     switch(action.type) {
-        case SET_AUTHENTICATED: 
-            return {
-                ...state, 
-                authenticated: true
-            }
         case SET_UNAUTHENTICATED: 
             return initialState
         case SET_USER: 
             return {
+                ...state,
                 authenticated: true,
                 loading: false,
-                ...action.payload
-            }
-        case LOADING_USER: 
-            return {
-                ...state,
-                loading: false
+                userName: action.payload
             }
         default:
             return state;
