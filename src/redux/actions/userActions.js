@@ -1,18 +1,24 @@
 import {
 	SET_USER,
-	SET_ERRORS,
-	CLEAR_ERRORS,
 	LOADING_UI,
 	SET_UNAUTHENTICATED,
-	LOADING_USER,
-	ADD_TODO
+	STOP_LOADING_UI
 } from '../types';
 
+export const loadUser = () => (dispatch) => {
+	dispatch({ type: LOADING_UI });
+	if (localStorage.getItem('userName')) {
+		dispatch({ type: SET_USER, payload: localStorage.getItem('userName') });
+	} else {
+		dispatch({ type: STOP_LOADING_UI });
+	}
+};
 // login
 export const loginUser = (userData) => (dispatch) => {
-	console.log(userData);
+	dispatch({ type: LOADING_UI });
 	localStorage.setItem('userName', userData);
 	dispatch({ type: SET_USER, payload: userData });
+	dispatch({ type: STOP_LOADING_UI });
 };
 
 // logout

@@ -4,7 +4,6 @@ const initialState = {
 };
 
 export default (state = initialState, action) => {
-	let newArray = [];
 	let index = null;
 	switch (action.type) {
 		case ADD_TAB:
