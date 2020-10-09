@@ -1,12 +1,12 @@
-import React, { useState, Suspense } from 'react';
+import React, { useState, Suspense, useEffect } from 'react';
 import PropTypes from 'prop-types';
 import { makeStyles } from '@material-ui/core/styles';
 import Tabs from '@material-ui/core/Tabs';
 import Tab from '@material-ui/core/Tab';
 import Box from '@material-ui/core/Box';
 import { connect } from 'react-redux';
-const TodoList =  React.lazy(() => import('../todoList/todoList')) ;
-
+import CircularProgress from '@material-ui/core/CircularProgress';
+const TodoList = React.lazy(() => import('../todoList/todoList'));
 
 function TabPanel(props) {
 	const { children, value, index, boxClass, ...other } = props;
@@ -57,35 +57,44 @@ const useStyles = makeStyles((theme) => ({
 function VerticalTabs(props) {
 	const classes = useStyles();
 	const [value, setValue] = useState(0);
-
-	const tabels = props.data.tabels;
+	const { data, user, UI } = props;
 
 	const handleChange = (event, newValue) => {
 		setValue(newValue);
 	};
-
+	const tab = () => {};
 	return (
 		<div className={classes.root}>
-			<Tabs
-				orientation='vertical'
-				variant='scrollable'
-				value={value}
-				onChange={handleChange}
-				aria-label='Vertical tabs example'
-				className={classes.tabs}
-			>
-				{tabels.map((tab, index) => (
-					<Tab key={tab.id} value={index} label={tab.label} />
-				))}
-			</Tabs>
-			{tabels.map((tab, index) => (
-				<TabPanel value={value} key={tab.id} index={index}>
-					<Suspense fallback={<div>Loading...</div>}>
-						<TodoList tabId={tab.id} />
-					</Suspense>
-					
-				</TabPanel>
-			))}
+			{user.authenticated ? (
+				<>
+					{UI.loading ? (
+						<CircularProgress />
+					) : (
+						<Tabs
+							orientation='vertical'
+							variant='scrollable'
+							value={value}
+							onChange={handleChange}
+							aria-label='Vertical tabs example'
+							className={classes.tabs}
+						>
+							{data.tabels.map((tab, index) => (
+								<Tab key={tab.id} value={index} label={tab.label} />
+							))}
+						</Tabs>
+					)}
+
+					{data.tabels.map((tab, index) => (
+						<TabPanel value={value} key={tab.id} index={index}>
+							<Suspense fallback={<CircularProgress />}>
+								<TodoList tabId={tab.id} />
+							</Suspense>
+						</TabPanel>
+					))}
+				</>
+			) : (
+				<p>No acces</p>
+			)}
 		</div>
 	);
 }
@@ -95,7 +104,9 @@ VerticalTabs.propTypes = {
 };
 
 const mapStateToProps = (state) => ({
-	data: state.data
+	data: state.data,
+	user: state.user,
+	UI: state.UI
 });
 
 export default connect(mapStateToProps)(VerticalTabs);

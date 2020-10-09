@@ -1,6 +1,7 @@
 import React, { useState} from 'react';
 import PropTypes from 'prop-types';
 import withStyles from '@material-ui/core/styles/withStyles';
+import {Redirect} from 'react-router-dom';
 
 // MUI stuff
 import Grid from '@material-ui/core/Grid';
@@ -33,18 +34,21 @@ const Login = (props) => {
 
 	const {
 		classes,
-		UI: { loading }
+		UI: { loading },
+		user
 	} = props;
 
 	function handleSubmit(event) {
-		
-		console.log("lolk")
-		event.preventDefault();
-		loginUser(userName);
+		if(!localStorage.getItem('user')) {
+			event.preventDefault();
+			loginUser(userName);
+			history.push('/')
+		}	
 	}
 
 	return (
 		<Grid container className={classes.form}>
+			{user.authenticated && <Redirect to='/' />}
 			<Grid item sm>
 				<Typography variant='h2' className={classes.pageTitle}>
 					Login

@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Link } from 'react-router-dom';
+import { Link} from 'react-router-dom';
 
 // MUI stuf
 import AppBar from '@material-ui/core/AppBar';
@@ -11,14 +11,13 @@ import AccountCircle from '@material-ui/icons/AccountCircle';
 import MenuItem from '@material-ui/core/MenuItem';
 import Menu from '@material-ui/core/Menu';
 
+import {connect} from 'react-redux';
+import {logoutUser} from '../../redux/actions/userActions';
+
 const Navbar = (props) => {
-	const [auth, setAuth] = useState(true);
 	const [anchorEl, setAnchorEl] = useState(null);
 	const open = Boolean(anchorEl);
-
-	const handleChange = (event) => {
-		setAuth(event.target.checked);
-	};
+	const {logoutUser, user} = props;
 
 	const handleMenu = (event) => {
 		setAnchorEl(event.currentTarget);
@@ -27,15 +26,17 @@ const Navbar = (props) => {
 	const handleClose = () => {
 		setAnchorEl(null);
 	};
+
+	const handleLogout = () => {
+		logoutUser();
+
+	}
 	return (
 		<AppBar color='primary'>
 			<Toolbar className='nav-contener'>
-				{auth ? (
+				{user.authenticated? (
 					<>
-						<Button color='inherit' component={Link} to='/'>
-							Home
-						</Button>
-						<Button color='inherit' component={Link} to='/signup'>
+						<Button color='inherit' onClick={handleLogout} >
 							Logout
 						</Button>
 					</>
@@ -51,7 +52,7 @@ const Navbar = (props) => {
 					</>
 				)}
 
-				{auth && (
+				{user.authenticated && (
 					<div>
 						<IconButton
 							aria-label='account of current user'
@@ -87,4 +88,8 @@ const Navbar = (props) => {
 	);
 };
 
-export default Navbar;
+const mapStateToProps = state =>({
+	user: state.user
+})
+
+export default connect(mapStateToProps, {logoutUser})(Navbar);

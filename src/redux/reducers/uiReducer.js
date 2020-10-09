@@ -3,7 +3,9 @@ import {
 	CLEAR_ERRORS,
 	LOADING_UI,
 	STOP_LOADING_UI,
-	CHANGE_RADIO_TAB
+	CHANGE_RADIO_TAB,
+	LOADIN_TABS,
+	LOADIN_TODOS
 } from '../types';
 
 const initialState = {
@@ -26,7 +28,7 @@ export default (state = initialState, action) => {
 				loading: false,
 				errors: null
 			};
-		case LOADING_UI:
+		case LOADIN_TABS:
 			return {
 				...state,
 				loading: true

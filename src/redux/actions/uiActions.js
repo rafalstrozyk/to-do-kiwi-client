@@ -1,4 +1,4 @@
-import {CHANGE_RADIO_TAB, LOADING_UI} from '../types';
+import {CHANGE_RADIO_TAB} from '../types';
 
 export const changeTabRadio = (tabId) => {
     return {

@@ -5,14 +5,14 @@ import {
 	SET_TODOS,
 	DELETE_TODO,
 	DELETE_TAB,
-	LOADING_UI,
-	STOP_LOADING_UI,
-	SET_ERRORS
+	SET_ERRORS,
+	LOADIN_TABS,
+	STOP_LOADING_UI
 } from '../types';
 import { db, firebase } from '../../firebase';
 
 export const loadTabs = () => (dispatch) => {
-	dispatch({type: LOADING_UI}) //TODO load tabs? 
+	dispatch({ type: LOADIN_TABS });
 	db.collection('tabs')
 		.get()
 		.then((snapshot) => {
@@ -23,13 +23,13 @@ export const loadTabs = () => (dispatch) => {
 				loadTab.todoArray = [];
 				tabsArray.push(loadTab);
 			});
-			dispatch({type: STOP_LOADING_UI})
 			dispatch({ type: SET_TABS, payload: tabsArray });
+			dispatch({ type: STOP_LOADING_UI });
 		})
 		.catch((err) => {
 			console.error(err);
-			dispatch({type: STOP_LOADING_UI})
 			dispatch({type: SET_ERRORS, payload: err})
+			dispatch({ type: STOP_LOADING_UI });
 		});
 };
 
@@ -43,7 +43,6 @@ export const addTab = (tab) => (dispatch) => {
 		})
 		.catch((err) => {
 			console.error(err);
-			dispatch({type: STOP_LOADING_UI})
 			dispatch({type: SET_ERRORS, payload: err})
 		});
 };
@@ -64,7 +63,6 @@ export const deleteTab = (tab) => (dispatch) => {
 } 
 
 export const loadTodo = (tabId) => (dispatch) => {
-	dispatch({type: LOADING_UI}) //TODO load todo?
 	db.collection('todos')
 		.where('tabId', '==', tabId)
 		.get()
@@ -81,7 +79,6 @@ export const loadTodo = (tabId) => (dispatch) => {
 		})
 		.catch((err) => {
 			console.error(err);
-			dispatch({type: STOP_LOADING_UI})
 			dispatch({type: SET_ERRORS, payload: err})
 		});
 };
@@ -105,7 +102,6 @@ export const addTodo = (todo) => (dispatch) => {
 		})
 		.catch((err) => {
 			console.error(err);
-			dispatch({type: STOP_LOADING_UI})
 			dispatch({type: SET_ERRORS, payload: err})
 		});
 };
@@ -126,7 +122,6 @@ export const deleteTodo = (todo) => (dispatch) => {
 		})
 		.catch((err) => {
 			console.error(err);
-			dispatch({type: STOP_LOADING_UI})
 			dispatch({type: SET_ERRORS, payload: err})
 		});
 };
