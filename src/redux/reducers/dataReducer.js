@@ -1,4 +1,11 @@
-import { ADD_TAB, ADD_TODO, SET_TABS, SET_TODOS, DELETE_TODO, RESET_DATA } from '../types';
+import {
+	ADD_TAB,
+	ADD_TODO,
+	SET_TABS,
+	SET_TODOS,
+	DELETE_TODO,
+	RESET_DATA
+} from '../types';
 const initialState = {
 	tabels: []
 };
@@ -15,7 +22,6 @@ export default (state = initialState, action) => {
 			index = state.tabels.findIndex((el) => {
 				return el.id === action.payload.tabId;
 			});
-			state.tabels[index].todoArray.push(action.payload);
 			state.tabels[index].todos += 1;
 			return {
 				...state
@@ -33,8 +39,8 @@ export default (state = initialState, action) => {
 			return {
 				...state
 			};
-		case RESET_DATA: 
-			return initialState
+		case RESET_DATA:
+			return initialState;
 		case DELETE_TODO:
 			state.tabels.forEach((tab) => {
 				if (tab.todoArray.length > 0) {

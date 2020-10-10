@@ -26,11 +26,6 @@ export const loadTabs = () => (dispatch) => {
 			dispatch({ type: SET_TABS, payload: tabsArray });
 			dispatch({ type: STOP_LOADING_UI });
 		})
-		.catch((err) => {
-			console.error(err);
-			dispatch({type: SET_ERRORS, payload: err})
-			dispatch({ type: STOP_LOADING_UI });
-		});
 };
 
 export const addTab = (tab) => (dispatch) => {
@@ -43,30 +38,30 @@ export const addTab = (tab) => (dispatch) => {
 		})
 		.catch((err) => {
 			console.error(err);
-			dispatch({type: SET_ERRORS, payload: err})
+			dispatch({ type: SET_ERRORS, payload: err });
 		});
 };
 
 export const deleteTab = (tab) => (dispatch) => {
-	db.collection('tabs').doc(tab.id)
+	db.collection('tabs')
+		.doc(tab.id)
 		.delete()
 		.then(() => {
 			db.collection('todos')
-			.where('tabId', "==", tab.id)
-			.get()
-			.then((snapshot) => {
-				snapshot.forEach(doc => {
-					doc.ref.delete();
-				})
-			})
-		})
-} 
+				.where('tabId', '==', tab.id)
+				.get()
+				.then((snapshot) => {
+					snapshot.forEach((doc) => {
+						doc.ref.delete();
+					});
+				});
+		});
+};
 
 export const loadTodo = (tabId) => (dispatch) => {
 	db.collection('todos')
 		.where('tabId', '==', tabId)
-		.get()
-		.then((snapshot) => {
+		.onSnapshot((snapshot) => {
 			let todosArray = [];
 			snapshot.docs.forEach((todo) => {
 				let loadTodo = todo.data();
@@ -77,10 +72,6 @@ export const loadTodo = (tabId) => (dispatch) => {
 				dispatch({ type: SET_TODOS, payload: todosArray });
 			}
 		})
-		.catch((err) => {
-			console.error(err);
-			dispatch({type: SET_ERRORS, payload: err})
-		});
 };
 
 export const addTodo = (todo) => (dispatch) => {
@@ -102,7 +93,7 @@ export const addTodo = (todo) => (dispatch) => {
 		})
 		.catch((err) => {
 			console.error(err);
-			dispatch({type: SET_ERRORS, payload: err})
+			dispatch({ type: SET_ERRORS, payload: err });
 		});
 };
 
@@ -122,6 +113,6 @@ export const deleteTodo = (todo) => (dispatch) => {
 		})
 		.catch((err) => {
 			console.error(err);
-			dispatch({type: SET_ERRORS, payload: err})
+			dispatch({ type: SET_ERRORS, payload: err });
 		});
 };

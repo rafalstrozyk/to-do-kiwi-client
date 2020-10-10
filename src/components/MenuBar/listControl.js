@@ -7,7 +7,10 @@ import ListItem from '@material-ui/core/ListItem';
 import ListItemText from '@material-ui/core/ListItemText';
 import Radio from '@material-ui/core/Radio';
 import RadioGroup from '@material-ui/core/RadioGroup';
-import { changeTabRadio} from '../../redux/actions/uiActions';
+import { changeTabRadio } from '../../redux/actions/uiActions';
+import FormControlLabel from '@material-ui/core/FormControlLabel';
+import FormControl from '@material-ui/core/FormControl';
+import FormLabel from '@material-ui/core/FormLabel';
 
 const useStyles = makeStyles((theme) => ({
 	root: {
@@ -24,9 +27,9 @@ function CheckboxList(props) {
 	const [checked, setChecked] = useState([0]);
 	const [value, setValue] = useState(tabels[0].id);
 
-	useEffect(()=> {
+	useEffect(() => {
 		changeTabRadio(value);
-	})
+	});
 
 	const handleChange = (event) => {
 		setValue(event.target.value);
@@ -53,28 +56,59 @@ function CheckboxList(props) {
 				value={value}
 				onChange={handleChange}
 			>
-				
 				{tabels.map((tabel, index) => {
 					const tabelId = `radio-list-label-${index}`;
 
 					return (
-						<ListItem
-							key={tabel.id}
-							role={undefined}
-							dense
-							button
-							onClick={handleToggle(tabel.id)}
-						>
-							<Radio
-								checked={value === tabel.id}
-								onChange={handleChange}
-								value={tabel.id}
-								name='radio-button-demo'
-								inputProps={{ 'aria-label': `${tabel.id}` }}
-							/>
+						// <ListItem
+						// 	key={tabel.id}
+						// 	role={undefined}
+						// 	dense
+						// 	button
+						// 	onClick={handleToggle(tabel.id)}
+						// >
+						// 	<Radio
+						// 		checked={value === tabel.id}
+						// 		onChange={handleChange}
+						// 		value={tabel.id}
+						// 		name='radio-button-demo'
+						// 		inputProps={{ 'aria-label': `${tabel.id}` }}
 
-							<ListItemText id={tabelId} primary={`${tabel.label}`} />
-						</ListItem>
+						// 	/>
+						// 	<ListItemText id={tabelId} primary={`${tabel.label}`} />
+
+						// </ListItem>
+						<FormControl component='fieldset'>
+							<FormLabel component='legend'>Tabel</FormLabel>
+							<RadioGroup
+								aria-label='tabel'
+								name='tabel1'
+								value={value}
+								onChange={handleChange}
+							>
+								<FormControlLabel
+									value='female'
+									control={<Radio />}
+									label='Female'
+								/>
+								<FormControlLabel
+									value='male'
+									control={<Radio />}
+									label='Male'
+								/>
+								<FormControlLabel
+									value='other'
+									control={<Radio />}
+									label='Other'
+								/>
+								<FormControlLabel
+									value='disabled'
+									disabled
+									control={<Radio />}
+									label='(Disabled option)'
+								/>
+							</RadioGroup>
+						</FormControl>
 					);
 				})}
 			</RadioGroup>
@@ -91,4 +125,4 @@ const mapStateToProps = (state) => ({
 	data: state.data
 });
 
-export default connect(mapStateToProps, { changeTabRadio})(CheckboxList);
+export default connect(mapStateToProps, { changeTabRadio })(CheckboxList);

@@ -8,6 +8,7 @@ import { connect } from 'react-redux';
 import CircularProgress from '@material-ui/core/CircularProgress';
 const TodoList = React.lazy(() => import('../todoList/todoList'));
 
+
 function TabPanel(props) {
 	const { children, value, index, boxClass, ...other } = props;
 
@@ -79,7 +80,7 @@ function VerticalTabs(props) {
 							className={classes.tabs}
 						>
 							{data.tabels.map((tab, index) => (
-								<Tab key={tab.id} value={index} label={tab.label} />
+								<Tab key={tab.id} value={index} label={`${tab.label} ${tab.todos}`} />
 							))}
 						</Tabs>
 					)}

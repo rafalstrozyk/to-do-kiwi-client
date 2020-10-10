@@ -25,7 +25,7 @@ import Signup from './pages/signup';
 const theme = createMuiTheme(themeFile);
 
 const App = (props) => {
-	const { loadUser } = props;
+	const { loadUser} = props;
 
 	useEffect(() => {
 		loadUser();
@@ -52,4 +52,4 @@ const App = (props) => {
 	);
 };
 
-export default connect(null, { loadUser })(App);
+export default connect(null, { loadUser})(App);
