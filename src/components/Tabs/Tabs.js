@@ -63,7 +63,6 @@ function VerticalTabs(props) {
 	const handleChange = (event, newValue) => {
 		setValue(newValue);
 	};
-	const tab = () => {};
 	return (
 		<div className={classes.root}>
 			{user.authenticated ? (

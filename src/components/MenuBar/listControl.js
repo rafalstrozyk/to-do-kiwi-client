@@ -78,37 +78,15 @@ function CheckboxList(props) {
 						// 	<ListItemText id={tabelId} primary={`${tabel.label}`} />
 
 						// </ListItem>
-						<FormControl component='fieldset'>
-							<FormLabel component='legend'>Tabel</FormLabel>
-							<RadioGroup
-								aria-label='tabel'
-								name='tabel1'
-								value={value}
+						<ListItem key={tabel.id} onClick={handleToggle(tabel.id)}>
+							<FormControlLabel
+								checked={value === tabel.id}
 								onChange={handleChange}
-							>
-								<FormControlLabel
-									value='female'
-									control={<Radio />}
-									label='Female'
-								/>
-								<FormControlLabel
-									value='male'
-									control={<Radio />}
-									label='Male'
-								/>
-								<FormControlLabel
-									value='other'
-									control={<Radio />}
-									label='Other'
-								/>
-								<FormControlLabel
-									value='disabled'
-									disabled
-									control={<Radio />}
-									label='(Disabled option)'
-								/>
-							</RadioGroup>
-						</FormControl>
+								value={tabel.id}
+								control={<Radio />}
+								label={`${tabel.label}`}
+							/>
+						</ListItem>
 					);
 				})}
 			</RadioGroup>

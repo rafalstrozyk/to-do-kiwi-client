@@ -13,3 +13,7 @@ html, body {
 .nav-contener { 
   margin: auto;
 }
+
+.nav-contener *:not(:last-child)  {
+  margin-right: 8px;
+}

@@ -1,10 +1,12 @@
 import React, { useState } from 'react';
-import { withStyles } from '@material-ui/core/styles';
+import { makeStyles, withStyles } from '@material-ui/core/styles';
 import PropTypes from 'prop-types'
 import AddTodoDialog from './addTodoDialog';
 import AddTabDialog from './addTabDialog';
+import RemoveTabDialog from './removeTabDialog';
 
 // Material-UI stuff
+import RemoveCircleIcon from '@material-ui/icons/RemoveCircle';
 import Button from '@material-ui/core/Button';
 import Menu from '@material-ui/core/Menu';
 import MenuItem from '@material-ui/core/MenuItem';
@@ -39,14 +41,22 @@ const StyledMenuItem = withStyles((theme) => ({
 			'& .MuiListItemIcon-root, & .MuiListItemText-primary': {
 				color: theme.palette.common.white
 			}
-		}
+		},
 	}
 }))(MenuItem);
 
+const useStyles = makeStyles(() => ({
+	root: {
+		marginBottom: 15
+	}
+}))
+
 function MenuBar(props) {
+	const classes = useStyles();
 	const [anchorEl, setAnchorEl] = useState(null);
 	const [openTodoDialog, setOpenTodoDialog] = useState(false);
 	const [openTabDialog, setOpenTabDialog] = useState(false);
+	const [openRemoveTabDialog, setOpenRemoveTabDialog] = useState(false);
 
 	const handleClick = (event) => {
 		setAnchorEl(event.currentTarget);
@@ -59,15 +69,17 @@ function MenuBar(props) {
 		if(document.getElementById('addTabDialog') === e.target) {
 			setOpenTabDialog(true);
 		}
+		if(document.getElementById('removeTabDialog') === e.target) {
+			setOpenRemoveTabDialog(true);
+		}
 	}
 
 	const handleClose = () => {
 		setAnchorEl(null);
 	};
 
-
 	return (
-		<>
+		<div className={classes.root}>
 			<Button
 				aria-controls='customized-menu'
 				aria-haspopup='true'
@@ -96,8 +108,14 @@ function MenuBar(props) {
 					</ListItemIcon>
 					<AddTabDialog id="addTabDialog" open={openTabDialog} />
 				</StyledMenuItem>
+				<StyledMenuItem>
+					<ListItemIcon>
+						<RemoveCircleIcon fontSize='small' />
+					</ListItemIcon>
+					<RemoveTabDialog id='removeTabDialog' open={openRemoveTabDialog} />
+				</StyledMenuItem>
 			</StyledMenu>
-		</>
+		</div>
 	);
 }
 

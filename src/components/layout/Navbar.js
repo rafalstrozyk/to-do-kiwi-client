@@ -5,14 +5,16 @@ import { Link} from 'react-router-dom';
 import AppBar from '@material-ui/core/AppBar';
 import Toolbar from '@material-ui/core/Toolbar';
 import Button from '@material-ui/core/Button';
-
 import IconButton from '@material-ui/core/IconButton';
 import AccountCircle from '@material-ui/icons/AccountCircle';
 import MenuItem from '@material-ui/core/MenuItem';
 import Menu from '@material-ui/core/Menu';
+import Typography from "@material-ui/core/Typography";
+import makeStyle from '@material-ui/core/styles/makeStyles';
 
 import {connect} from 'react-redux';
 import {logoutUser} from '../../redux/actions/userActions';
+
 
 const Navbar = (props) => {
 	const [anchorEl, setAnchorEl] = useState(null);
@@ -39,21 +41,6 @@ const Navbar = (props) => {
 						<Button color='inherit' onClick={handleLogout} >
 							Logout
 						</Button>
-					</>
-				) : (
-					<>
-						<Button color='inherit' component={Link} to='/login'>
-							Login
-						</Button>
-
-						<Button color='inherit' component={Link} to='/signup'>
-							Signup
-						</Button>
-					</>
-				)}
-
-				{user.authenticated && (
-					<div>
 						<IconButton
 							aria-label='account of current user'
 							aria-controls='menu-appbar'
@@ -63,6 +50,8 @@ const Navbar = (props) => {
 						>
 							<AccountCircle />
 						</IconButton>
+						<Typography variant="body1" >{`${user.userName}`}</Typography>
+
 						<Menu
 							id='menu-appbar'
 							anchorEl={anchorEl}
@@ -81,7 +70,17 @@ const Navbar = (props) => {
 							<MenuItem onClick={handleClose}>Profile</MenuItem>
 							<MenuItem onClick={handleClose}>My account</MenuItem>
 						</Menu>
-					</div>
+					</>
+				) : (
+					<>
+						<Button color='inherit' component={Link} to='/login'>
+							Login
+						</Button>
+
+						<Button color='inherit' component={Link} to='/signup'>
+							Signup
+						</Button>
+					</>
 				)}
 			</Toolbar>
 		</AppBar>
