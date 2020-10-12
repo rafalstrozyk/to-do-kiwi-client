@@ -11,9 +11,10 @@ import {
 } from '../types';
 import { db, firebase } from '../../firebase';
 
-export const loadTabs = () => (dispatch) => {
+export const loadTabs = (user) => (dispatch) => {
 	dispatch({ type: LOADIN_TABS });
 	db.collection('tabs')
+	.where('user', '==', user)
 		.get()
 		.then((snapshot) => {
 			let tabsArray = [];

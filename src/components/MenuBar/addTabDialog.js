@@ -13,7 +13,7 @@ import {connect} from 'react-redux';
 
 function AddTabDialog(props) {
 	const [open, setOpen] = useState(false);
-	const {addTab, UI} = props;
+	const {addTab,user, UI} = props;
 	const [label, setLabel] = useState('');
 
 
@@ -29,12 +29,13 @@ function AddTabDialog(props) {
 		setOpen(false);
 	};
 	const handleSubmit = () => {
-		const todo = {
+		const table = {
             label,
-            todos: 0
+			todos: 0,
+			user: user.userName
         }
         setOpen(false);
-		addTab(todo);
+		addTab(table);
 		
 	}
 
@@ -81,7 +82,8 @@ AddTabDialog.propTypes = {
 }
 
 const mapStateToProps = (state) => ({
-	UI: state.UI
+	UI: state.UI,
+	user: state.user
 });
 
 

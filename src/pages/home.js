@@ -10,7 +10,7 @@ const Home = (props) => {
 	const { loadTabs, user } = props;
 	useEffect(() => {
 		if (user.authenticated) {
-			loadTabs();
+			loadTabs(user.userName);
 		}
 	});
 
