@@ -4,7 +4,8 @@ import {
 	SET_TABS,
 	SET_TODOS,
 	DELETE_TODO,
-	RESET_DATA
+	RESET_DATA,
+	DELETE_TAB
 } from '../types';
 const initialState = {
 	tabels: []
@@ -39,6 +40,8 @@ export default (state = initialState, action) => {
 			return {
 				...state
 			};
+		case DELETE_TAB:
+			return { ...state };
 		case RESET_DATA:
 			return initialState;
 		case DELETE_TODO:

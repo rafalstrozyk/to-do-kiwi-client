@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import { Link} from 'react-router-dom';
+import PropTypes from 'prop-types' 
 
 // MUI stuf
 import AppBar from '@material-ui/core/AppBar';
@@ -10,8 +11,8 @@ import AccountCircle from '@material-ui/icons/AccountCircle';
 import MenuItem from '@material-ui/core/MenuItem';
 import Menu from '@material-ui/core/Menu';
 import Typography from "@material-ui/core/Typography";
-import makeStyle from '@material-ui/core/styles/makeStyles';
 
+// redux
 import {connect} from 'react-redux';
 import {logoutUser} from '../../redux/actions/userActions';
 
@@ -87,8 +88,13 @@ const Navbar = (props) => {
 	);
 };
 
+Navbar.propTypes = {
+	user: PropTypes.object.isRequired,
+	logoutUser: PropTypes.func.isRequired
+}
+
 const mapStateToProps = state =>({
-	user: state.user
+	user: state.user,
 })
 
 export default connect(mapStateToProps, {logoutUser})(Navbar);

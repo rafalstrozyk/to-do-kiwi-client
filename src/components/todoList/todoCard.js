@@ -8,6 +8,7 @@ import CardContent from '@material-ui/core/CardContent';
 import CheckIcon from '@material-ui/icons/Check';
 import IconButton from '@material-ui/core/IconButton';
 import Typography from '@material-ui/core/Typography';
+
 import {connect} from 'react-redux';
 import {deleteTodo} from '../../redux/actions/dataActions';
 
@@ -56,5 +57,6 @@ TodoCard.propTypes = {
     todo: PropTypes.object.isRequired,
     deleteTodo: PropTypes.func.isRequired
 };
+
 
 export default connect(null, {deleteTodo})(TodoCard);

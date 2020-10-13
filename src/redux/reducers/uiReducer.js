@@ -1,11 +1,9 @@
 import {
 	SET_ERRORS,
 	CLEAR_ERRORS,
-	LOADING_UI,
 	STOP_LOADING_UI,
 	CHANGE_RADIO_TAB,
 	LOADIN_TABS,
-	LOADIN_TODOS
 } from '../types';
 
 const initialState = {

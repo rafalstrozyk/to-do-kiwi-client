@@ -1,16 +1,17 @@
 import React, { useState, useEffect } from 'react';
-import { connect } from 'react-redux';
-import { makeStyles } from '@material-ui/core/styles';
 import PropTypes from 'prop-types';
+
+// MUI
+import { makeStyles } from '@material-ui/core/styles';
 import List from '@material-ui/core/List';
 import ListItem from '@material-ui/core/ListItem';
-import ListItemText from '@material-ui/core/ListItemText';
 import Radio from '@material-ui/core/Radio';
 import RadioGroup from '@material-ui/core/RadioGroup';
-import { changeTabRadio } from '../../redux/actions/uiActions';
 import FormControlLabel from '@material-ui/core/FormControlLabel';
-import FormControl from '@material-ui/core/FormControl';
-import FormLabel from '@material-ui/core/FormLabel';
+
+// redux
+import { connect } from 'react-redux';
+import { changeTabRadio } from '../../redux/actions/uiActions';
 
 const useStyles = makeStyles((theme) => ({
 	root: {
@@ -56,28 +57,8 @@ function CheckboxList(props) {
 				value={value}
 				onChange={handleChange}
 			>
-				{tabels.map((tabel, index) => {
-					const tabelId = `radio-list-label-${index}`;
-
+				{tabels.map((tabel) => {
 					return (
-						// <ListItem
-						// 	key={tabel.id}
-						// 	role={undefined}
-						// 	dense
-						// 	button
-						// 	onClick={handleToggle(tabel.id)}
-						// >
-						// 	<Radio
-						// 		checked={value === tabel.id}
-						// 		onChange={handleChange}
-						// 		value={tabel.id}
-						// 		name='radio-button-demo'
-						// 		inputProps={{ 'aria-label': `${tabel.id}` }}
-
-						// 	/>
-						// 	<ListItemText id={tabelId} primary={`${tabel.label}`} />
-
-						// </ListItem>
 						<ListItem key={tabel.id} onClick={handleToggle(tabel.id)}>
 							<FormControlLabel
 								checked={value === tabel.id}
@@ -95,8 +76,8 @@ function CheckboxList(props) {
 }
 
 CheckboxList.propTypes = {
-	data: PropTypes.object.isRequired,
-	changeTabRadio: PropTypes.func.isRequired
+	changeTabRadio: PropTypes.func.isRequired,
+	data: PropTypes.object.isRequired
 };
 
 const mapStateToProps = (state) => ({

@@ -14,7 +14,7 @@ import { db, firebase } from '../../firebase';
 export const loadTabs = (user) => (dispatch) => {
 	dispatch({ type: LOADIN_TABS });
 	db.collection('tabs')
-	.where('user', '==', user)
+		.where('user', '==', user)
 		.get()
 		.then((snapshot) => {
 			let tabsArray = [];
@@ -26,7 +26,7 @@ export const loadTabs = (user) => (dispatch) => {
 			});
 			dispatch({ type: SET_TABS, payload: tabsArray });
 			dispatch({ type: STOP_LOADING_UI });
-		})
+		});
 };
 
 export const addTab = (tab) => (dispatch) => {
@@ -43,18 +43,19 @@ export const addTab = (tab) => (dispatch) => {
 		});
 };
 
-export const deleteTab = (tab) => (dispatch) => {
+export const deleteTab = (tabId) => (dispatch) => {
 	db.collection('tabs')
-		.doc(tab.id)
+		.doc(tabId)
 		.delete()
 		.then(() => {
 			db.collection('todos')
-				.where('tabId', '==', tab.id)
+				.where('tabId', '==', tabId)
 				.get()
 				.then((snapshot) => {
 					snapshot.forEach((doc) => {
 						doc.ref.delete();
 					});
+					dispatch({ type: DELETE_TAB });
 				});
 		});
 };
@@ -72,7 +73,7 @@ export const loadTodo = (tabId) => (dispatch) => {
 			if (todosArray.length > 0) {
 				dispatch({ type: SET_TODOS, payload: todosArray });
 			}
-		})
+		});
 };
 
 export const addTodo = (todo) => (dispatch) => {

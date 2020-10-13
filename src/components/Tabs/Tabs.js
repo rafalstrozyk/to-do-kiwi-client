@@ -1,13 +1,14 @@
-import React, { useState, Suspense, useEffect } from 'react';
+import React, { useState, Suspense } from 'react';
 import PropTypes from 'prop-types';
+
 import { makeStyles } from '@material-ui/core/styles';
 import Tabs from '@material-ui/core/Tabs';
 import Tab from '@material-ui/core/Tab';
 import Box from '@material-ui/core/Box';
-import { connect } from 'react-redux';
 import CircularProgress from '@material-ui/core/CircularProgress';
-const TodoList = React.lazy(() => import('../todoList/todoList'));
 
+import { connect } from 'react-redux';
+const TodoList = React.lazy(() => import('../todoList/todoList'));
 
 function TabPanel(props) {
 	const { children, value, index, boxClass, ...other } = props;
@@ -79,7 +80,11 @@ function VerticalTabs(props) {
 							className={classes.tabs}
 						>
 							{data.tabels.map((tab, index) => (
-								<Tab key={tab.id} value={index} label={`${tab.label} ${tab.todos}`} />
+								<Tab
+									key={tab.id}
+									value={index}
+									label={`${tab.label} ${tab.todos}`}
+								/>
 							))}
 						</Tabs>
 					)}
@@ -100,7 +105,9 @@ function VerticalTabs(props) {
 }
 
 VerticalTabs.propTypes = {
-	data: PropTypes.object.isRequired
+	data: PropTypes.object.isRequired,
+	user: PropTypes.object.isRequired,
+	UI: PropTypes.object.isRequired
 };
 
 const mapStateToProps = (state) => ({

@@ -1,5 +1,11 @@
 import React, { useEffect, useState } from 'react';
 import PropTypes from 'prop-types';
+
+// Redux
+import { addTab } from '../../redux/actions/dataActions';
+import { connect } from 'react-redux';
+
+// MUI
 import DialogTitle from '@material-ui/core/DialogTitle';
 import Dialog from '@material-ui/core/Dialog';
 import Typography from '@material-ui/core/Typography';
@@ -8,14 +14,11 @@ import DialogContent from '@material-ui/core/DialogContent';
 import DialogContentText from '@material-ui/core/DialogContentText';
 import Button from '@material-ui/core/Button';
 import TextField from '@material-ui/core/TextField';
-import { addTab } from '../../redux/actions/dataActions';
-import {connect} from 'react-redux';
 
 function AddTabDialog(props) {
 	const [open, setOpen] = useState(false);
-	const {addTab,user, UI} = props;
+	const { addTab, user } = props;
 	const [label, setLabel] = useState('');
-
 
 	useEffect(() => {
 		setOpen(props.open);
@@ -30,14 +33,13 @@ function AddTabDialog(props) {
 	};
 	const handleSubmit = () => {
 		const table = {
-            label,
+			label,
 			todos: 0,
 			user: user.userName
-        }
-        setOpen(false);
+		};
+		setOpen(false);
 		addTab(table);
-		
-	}
+	};
 
 	return (
 		<div>
@@ -51,9 +53,7 @@ function AddTabDialog(props) {
 			>
 				<DialogTitle id='simple-dialog-label'>Make Tabel</DialogTitle>
 				<DialogContent>
-					<DialogContentText>
-						Create you table for todos.
-					</DialogContentText>
+					<DialogContentText>Create you table for todos.</DialogContentText>
 					<TextField
 						autoFocus
 						margin='dense'
@@ -61,7 +61,7 @@ function AddTabDialog(props) {
 						label='Label'
 						type='text'
 						fullWidth
-						onChange={e => setLabel(e.target.value)}
+						onChange={(e) => setLabel(e.target.value)}
 					/>
 				</DialogContent>
 				<DialogActions>
@@ -73,18 +73,16 @@ function AddTabDialog(props) {
 					</Button>
 				</DialogActions>
 			</Dialog>
-			
 		</div>
 	);
 }
 AddTabDialog.propTypes = {
-    UI: PropTypes.object.isRequired
-}
+	user: PropTypes.object.isRequired,
+	addTab: PropTypes.func.isRequired
+};
 
 const mapStateToProps = (state) => ({
-	UI: state.UI,
 	user: state.user
 });
 
-
-export default connect(mapStateToProps, {addTab})(AddTabDialog);
+export default connect(mapStateToProps, { addTab })(AddTabDialog);

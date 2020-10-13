@@ -1,5 +1,12 @@
 import React, { useEffect, useState } from 'react';
 import PropTypes from 'prop-types';
+import CheckboxList from './listControl';
+
+// redux
+import { addTodo } from '../../redux/actions/dataActions';
+import { connect } from 'react-redux';
+
+//MUI
 import DialogTitle from '@material-ui/core/DialogTitle';
 import Dialog from '@material-ui/core/Dialog';
 import Typography from '@material-ui/core/Typography';
@@ -8,13 +15,11 @@ import DialogContent from '@material-ui/core/DialogContent';
 import DialogContentText from '@material-ui/core/DialogContentText';
 import Button from '@material-ui/core/Button';
 import TextField from '@material-ui/core/TextField';
-import CheckboxList from './listControl';
-import { addTodo } from '../../redux/actions/dataActions';
-import { connect } from 'react-redux';
+
 
 function AddTodoDialog(props) {
 	const [open, setOpen] = useState(false);
-	const { addTodo, data, UI } = props;
+	const { addTodo, UI } = props;
 	const [title, setTitle] = useState('');
 	const [desc, setDesc] = useState('');
 
@@ -89,13 +94,11 @@ function AddTodoDialog(props) {
 }
 
 AddTodoDialog.propTypes = {
-	data: PropTypes.object.isRequired,
 	UI: PropTypes.object.isRequired,
 	addTodo: PropTypes.func.isRequired
 };
 
 const mapStateToProps = (state) => ({
-	data: state.data,
 	UI: state.UI
 });
 

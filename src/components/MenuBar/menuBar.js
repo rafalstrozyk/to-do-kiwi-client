@@ -1,6 +1,5 @@
 import React, { useState } from 'react';
 import { makeStyles, withStyles } from '@material-ui/core/styles';
-import PropTypes from 'prop-types'
 import AddTodoDialog from './addTodoDialog';
 import AddTabDialog from './addTabDialog';
 import RemoveTabDialog from './removeTabDialog';

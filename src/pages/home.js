@@ -24,7 +24,8 @@ const Home = (props) => {
 };
 
 Home.propTypes = {
-	loadTabs: PropTypoes.func.isRequired
+	loadTabs: PropTypoes.func.isRequired,
+	user: PropTypoes.object.isRequired
 };
 
 const mapStateToProps = (state) => ({

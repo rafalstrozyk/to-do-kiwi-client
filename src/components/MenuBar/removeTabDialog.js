@@ -1,17 +1,20 @@
 import React, { useEffect, useState } from 'react';
 import PropTypes from 'prop-types';
+import CheckboxList from './listControl';
+
 import DialogTitle from '@material-ui/core/DialogTitle';
 import Dialog from '@material-ui/core/Dialog';
 import Typography from '@material-ui/core/Typography';
 import DialogActions from '@material-ui/core/DialogActions';
 import DialogContent from '@material-ui/core/DialogContent';
 import Button from '@material-ui/core/Button';
-import CheckboxList from './listControl';
-import { addTodo } from '../../redux/actions/dataActions';
+
 import { connect } from 'react-redux';
+import { deleteTab, loadTabs } from '../../redux/actions/dataActions';
 
 function RemoveTabDialog(props) {
 	const [open, setOpen] = useState(false);
+	const { deleteTab, loadTabs, user, UI } = props;
 
 	useEffect(() => {
 		setOpen(props.open);
@@ -25,8 +28,9 @@ function RemoveTabDialog(props) {
 		setOpen(false);
 	};
 	const handleSubmit = () => {
-        setOpen(false);
-		console.log('delete');
+		deleteTab(UI.radioTab);
+		loadTabs(user.userName);
+		setOpen(false);
 	};
 
 	return (
@@ -34,12 +38,10 @@ function RemoveTabDialog(props) {
 			<Typography variant='body1' onClick={handleClickOpen} component='p'>
 				Remove Table
 			</Typography>
-			<Dialog
-				onClose={handleClose}
-				aria-labelledby='remove-table'
-				open={open}
-			>
-				<DialogTitle id='remove-table-dialog'>Check what table you need remove</DialogTitle>
+			<Dialog onClose={handleClose} aria-labelledby='remove-table' open={open}>
+				<DialogTitle id='remove-table-dialog'>
+					Check what table you need remove
+				</DialogTitle>
 				<DialogContent>
 					<CheckboxList />
 				</DialogContent>
@@ -57,12 +59,17 @@ function RemoveTabDialog(props) {
 }
 
 RemoveTabDialog.propTypes = {
-	
+	user: PropTypes.object.isRequired,
+	UI: PropTypes.object.isRequired,
+	deleteTab: PropTypes.func.isRequired,
+	loadTabs: PropTypes.func.isRequired
 };
 
 const mapStateToProps = (state) => ({
-	data: state.data,
-	UI: state.UI
+	UI: state.UI,
+	user: state.user
 });
 
-export default connect(mapStateToProps, { addTodo })(RemoveTabDialog);
+export default connect(mapStateToProps, { deleteTab, loadTabs })(
+	RemoveTabDialog
+);

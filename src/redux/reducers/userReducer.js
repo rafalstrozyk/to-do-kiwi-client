@@ -1,8 +1,6 @@
 import {
     SET_USER,
-    SET_AUTHENTICATED,
     SET_UNAUTHENTICATED,
-    LOADING_USER,
 } from '../types';
 
 const initialState = {
