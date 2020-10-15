@@ -5,6 +5,8 @@ export const SET_USER = 'SET_USER';
 // UI reducer types
 export const SET_ERRORS = 'SET_ERRORS';
 export const CLEAR_ERRORS = 'CLEAR_ERRORS';
+export const SET_INFO = "SET_INFO";
+export const CLEAR_INFO = 'CLEAR_INFO';
 export const CHANGE_RADIO_TAB = 'CHANGE_RADIO_TAB';
 export const LOADIN_TABS = "LOADING_TABS"
 export const STOP_LOADING_UI = "STOP_LOADING_UI"

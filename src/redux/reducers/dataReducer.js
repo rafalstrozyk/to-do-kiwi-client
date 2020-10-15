@@ -54,7 +54,9 @@ export default (state = initialState, action) => {
 						.indexOf(action.payload);
 					if (index > -1) {
 						tab.todoArray.splice(index, 1);
+						
 					}
+					state.tabels[index].todos -= 1;
 				}
 			});
 			return {

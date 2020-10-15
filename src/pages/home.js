@@ -5,6 +5,7 @@ import PropTypoes from 'prop-types';
 import { connect } from 'react-redux';
 import { loadTabs } from '../redux/actions/dataActions';
 import { Redirect } from 'react-router-dom';
+import Alerts from '../components/alerts/alerts';
 
 const Home = (props) => {
 	const { loadTabs, user } = props;
@@ -16,6 +17,7 @@ const Home = (props) => {
 
 	return (
 		<div>
+			<Alerts />
 			{!user.authenticated && <Redirect to='/login' />}
 			<MenuBar />
 			<VerticalTabs />

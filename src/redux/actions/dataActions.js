@@ -6,8 +6,11 @@ import {
 	DELETE_TODO,
 	DELETE_TAB,
 	SET_ERRORS,
+	CLEAR_ERRORS,
 	LOADIN_TABS,
-	STOP_LOADING_UI
+	STOP_LOADING_UI,
+	SET_INFO,
+	CLEAR_INFO
 } from '../types';
 import { db, firebase } from '../../firebase';
 
@@ -24,26 +27,33 @@ export const loadTabs = (user) => (dispatch) => {
 				loadTab.todoArray = [];
 				tabsArray.push(loadTab);
 			});
+			dispatch(clearErrors());
 			dispatch({ type: SET_TABS, payload: tabsArray });
 			dispatch({ type: STOP_LOADING_UI });
+		})
+		.catch((err) => {
+			dispatch({ type: SET_ERRORS, payload: err });
 		});
 };
 
 export const addTab = (tab) => (dispatch) => {
+	dispatch(clearInfo());
 	db.collection('tabs')
 		.add(tab)
 		.then((doc) => {
 			tab.id = doc.id;
 			tab.todoArray = [];
+			dispatch(clearErrors());
 			dispatch({ type: ADD_TAB, payload: tab });
+			dispatch({ type: SET_INFO, payload: 'Create tabel succesfull!' });
 		})
 		.catch((err) => {
-			console.error(err);
 			dispatch({ type: SET_ERRORS, payload: err });
 		});
 };
 
 export const deleteTab = (tabId) => (dispatch) => {
+	dispatch(clearInfo());
 	db.collection('tabs')
 		.doc(tabId)
 		.delete()
@@ -55,8 +65,17 @@ export const deleteTab = (tabId) => (dispatch) => {
 					snapshot.forEach((doc) => {
 						doc.ref.delete();
 					});
+
 					dispatch({ type: DELETE_TAB });
+				})
+				.catch((err) => {
+					dispatch({ type: SET_ERRORS, payload: err });
 				});
+			
+			dispatch({ type: SET_INFO, payload: 'Delete tabel succesfull!' });
+		})
+		.catch((err) => {
+			dispatch({ type: SET_ERRORS, payload: err });
 		});
 };
 
@@ -77,6 +96,7 @@ export const loadTodo = (tabId) => (dispatch) => {
 };
 
 export const addTodo = (todo) => (dispatch) => {
+	dispatch(clearInfo());
 	db.collection('todos')
 		.add(todo)
 		.then((doc) => {
@@ -91,15 +111,20 @@ export const addTodo = (todo) => (dispatch) => {
 				.doc(todo.tabId)
 				.update({
 					todos: firebase.firestore.FieldValue.increment(1)
+				})
+				.catch((err) => {
+					dispatch({ type: SET_ERRORS, payload: err });
 				});
+			dispatch(clearErrors());
+			dispatch({ type: SET_INFO, payload: 'Add to-do succesfull!' });
 		})
 		.catch((err) => {
-			console.error(err);
 			dispatch({ type: SET_ERRORS, payload: err });
 		});
 };
 
 export const deleteTodo = (todo) => (dispatch) => {
+	dispatch(clearInfo());
 	db.collection('todos')
 		.doc(todo.id)
 		.delete()
@@ -108,13 +133,25 @@ export const deleteTodo = (todo) => (dispatch) => {
 				.doc(todo.tabId)
 				.update({
 					todos: firebase.firestore.FieldValue.increment(-1)
+				})
+				.catch((err) => {
+					dispatch({ type: SET_ERRORS, payload: err });
 				});
 		})
 		.then(() => {
+			dispatch(clearErrors());
 			dispatch({ type: DELETE_TODO, payload: todo.id });
+			dispatch({ type: SET_INFO, payload: 'Delete to-do succesfull!' });
 		})
 		.catch((err) => {
-			console.error(err);
+			console.log(err);
 			dispatch({ type: SET_ERRORS, payload: err });
 		});
+};
+
+export const clearErrors = () => (dispatch) => {
+	dispatch({ type: CLEAR_ERRORS });
+};
+export const clearInfo = () => (dispatch) => {
+	dispatch({ type: CLEAR_INFO });
 };
