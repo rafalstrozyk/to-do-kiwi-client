@@ -77,8 +77,12 @@ function CheckboxList(props) {
 
 CheckboxList.propTypes = {
 	changeTabRadio: PropTypes.func.isRequired,
-	data: PropTypes.object.isRequired
+	tabels: PropTypes.array.isRequired
 };
+
+CheckboxList.defaultProps = {
+	tabels: [],
+}
 
 const mapStateToProps = (state) => ({
 	data: state.data

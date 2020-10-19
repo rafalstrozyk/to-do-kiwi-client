@@ -16,10 +16,9 @@ import DialogContentText from '@material-ui/core/DialogContentText';
 import Button from '@material-ui/core/Button';
 import TextField from '@material-ui/core/TextField';
 
-
 function AddTodoDialog(props) {
 	const [open, setOpen] = useState(false);
-	const { addTodo, UI } = props;
+	const { addTodo, UI, data } = props;
 	const [title, setTitle] = useState('');
 	const [desc, setDesc] = useState('');
 
@@ -52,42 +51,57 @@ function AddTodoDialog(props) {
 			</Typography>
 			<Dialog
 				onClose={handleClose}
-				aria-labelledby='simple-dialog-title'
+				aria-labelledby='make-todo-dialog'
 				open={open}
 			>
-				<DialogTitle id='simple-dialog-title'>Make todo</DialogTitle>
-				<DialogContent>
-					<DialogContentText>
-						Write what you have to do and select the column to which you will
-						add the task from the list
-					</DialogContentText>
-					<TextField
-						autoFocus
-						margin='dense'
-						id='title'
-						label='The title of the task'
-						type='text'
-						fullWidth
-						onChange={(e) => setTitle(e.target.value)}
-					/>
-					<TextField
-						margin='dense'
-						id='description'
-						label='Description'
-						type='text'
-						fullWidth
-						onChange={(e) => setDesc(e.target.value)}
-					/>
-					<CheckboxList />
-				</DialogContent>
-				<DialogActions>
-					<Button onClick={handleClose} color='primary'>
-						Cancel
-					</Button>
-					<Button onClick={handleSubmit} color='primary'>
-						Ok
-					</Button>
-				</DialogActions>
+				{data.tabels.length > 0 ? (
+					<>
+						<DialogTitle id='make-todo-dialog-title'>Make todo</DialogTitle>
+						<DialogContent>
+							<DialogContentText>
+								Write what you have to do and select the column to which you
+								will add the task from the list
+							</DialogContentText>
+							<TextField
+								autoFocus
+								margin='dense'
+								id='title'
+								label='The title of the task'
+								type='text'
+								fullWidth
+								onChange={(e) => setTitle(e.target.value)}
+							/>
+							<TextField
+								margin='dense'
+								id='description'
+								label='Description'
+								type='text'
+								fullWidth
+								onChange={(e) => setDesc(e.target.value)}
+							/>
+							<CheckboxList />
+						</DialogContent>
+						<DialogActions>
+							<Button onClick={handleClose} color='primary'>
+								Cancel
+							</Button>
+							<Button onClick={handleSubmit} color='primary'>
+								Ok
+							</Button>
+						</DialogActions>
+					</>
+				) : (
+					<>
+						<DialogTitle id='make-todo-dialog-title'>
+							First create Tabel
+						</DialogTitle>
+						<DialogActions>
+							<Button onClick={handleClose} color='primary'>
+								Cancel
+							</Button>
+						</DialogActions>
+					</>
+				)}
 			</Dialog>
 		</div>
 	);
@@ -95,11 +109,13 @@ function AddTodoDialog(props) {
 
 AddTodoDialog.propTypes = {
 	UI: PropTypes.object.isRequired,
-	addTodo: PropTypes.func.isRequired
+	addTodo: PropTypes.func.isRequired,
+	data: PropTypes.object.isRequired
 };
 
 const mapStateToProps = (state) => ({
-	UI: state.UI
+	UI: state.UI,
+	data: state.data
 });
 
 export default connect(mapStateToProps, { addTodo })(AddTodoDialog);

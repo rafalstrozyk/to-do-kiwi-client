@@ -48,10 +48,10 @@ function AddTabDialog(props) {
 			</Typography>
 			<Dialog
 				onClose={handleClose}
-				aria-labelledby='simple-dialog-label'
+				aria-labelledby='create-tabel-dialog'
 				open={open}
 			>
-				<DialogTitle id='simple-dialog-label'>Make Tabel</DialogTitle>
+				<DialogTitle id='create-tabel-dialog-title'>Make Tabel</DialogTitle>
 				<DialogContent>
 					<DialogContentText>Create you table for todos.</DialogContentText>
 					<TextField

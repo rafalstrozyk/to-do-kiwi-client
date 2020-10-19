@@ -71,7 +71,7 @@ export const deleteTab = (tabId) => (dispatch) => {
 				.catch((err) => {
 					dispatch({ type: SET_ERRORS, payload: err });
 				});
-			
+
 			dispatch({ type: SET_INFO, payload: 'Delete tabel succesfull!' });
 		})
 		.catch((err) => {
@@ -124,6 +124,7 @@ export const addTodo = (todo) => (dispatch) => {
 };
 
 export const deleteTodo = (todo) => (dispatch) => {
+	dispatch(clearErrors());
 	dispatch(clearInfo());
 	db.collection('todos')
 		.doc(todo.id)
@@ -138,15 +139,13 @@ export const deleteTodo = (todo) => (dispatch) => {
 					dispatch({ type: SET_ERRORS, payload: err });
 				});
 		})
-		.then(() => {
-			dispatch(clearErrors());
-			dispatch({ type: DELETE_TODO, payload: todo.id });
-			dispatch({ type: SET_INFO, payload: 'Delete to-do succesfull!' });
-		})
 		.catch((err) => {
 			console.log(err);
 			dispatch({ type: SET_ERRORS, payload: err });
 		});
+
+	dispatch({ type: DELETE_TODO, payload: todo.id });
+	dispatch({ type: SET_INFO, payload: 'Delete to-do succesfull!' });
 };
 
 export const clearErrors = () => (dispatch) => {

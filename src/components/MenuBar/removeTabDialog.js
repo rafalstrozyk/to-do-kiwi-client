@@ -14,7 +14,7 @@ import { deleteTab, loadTabs } from '../../redux/actions/dataActions';
 
 function RemoveTabDialog(props) {
 	const [open, setOpen] = useState(false);
-	const { deleteTab, loadTabs, user, UI } = props;
+	const { deleteTab, loadTabs, user, UI, data } = props;
 
 	useEffect(() => {
 		setOpen(props.open);
@@ -39,20 +39,35 @@ function RemoveTabDialog(props) {
 				Remove Table
 			</Typography>
 			<Dialog onClose={handleClose} aria-labelledby='remove-table' open={open}>
-				<DialogTitle id='remove-table-dialog'>
-					Check what table you need remove
-				</DialogTitle>
-				<DialogContent>
-					<CheckboxList />
-				</DialogContent>
-				<DialogActions>
-					<Button onClick={handleClose} color='primary'>
-						Cancel
-					</Button>
-					<Button onClick={handleSubmit} color='primary'>
-						Ok
-					</Button>
-				</DialogActions>
+				{data.tabels.length > 0 ? (
+					<>
+						<DialogTitle id='remove-table-dialog'>
+							Check what table you need remove
+						</DialogTitle>
+						<DialogContent>
+							<CheckboxList />
+						</DialogContent>
+						<DialogActions>
+							<Button onClick={handleClose} color='primary'>
+								Cancel
+							</Button>
+							<Button onClick={handleSubmit} color='primary'>
+								Ok
+							</Button>
+						</DialogActions>
+					</>
+				) : (
+					<>
+						<DialogTitle id='remove-table-dialog'>
+							You dont have any tabels to remove
+						</DialogTitle>
+						<DialogActions>
+							<Button onClick={handleClose} color='primary'>
+								Cancel
+							</Button>
+						</DialogActions>
+					</>
+				)}
 			</Dialog>
 		</div>
 	);
@@ -61,13 +76,15 @@ function RemoveTabDialog(props) {
 RemoveTabDialog.propTypes = {
 	user: PropTypes.object.isRequired,
 	UI: PropTypes.object.isRequired,
+	data: PropTypes.object.isRequired,
 	deleteTab: PropTypes.func.isRequired,
 	loadTabs: PropTypes.func.isRequired
 };
 
 const mapStateToProps = (state) => ({
 	UI: state.UI,
-	user: state.user
+	user: state.user,
+	data: state.data
 });
 
 export default connect(mapStateToProps, { deleteTab, loadTabs })(
